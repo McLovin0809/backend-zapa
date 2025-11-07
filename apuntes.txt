@@ -1,0 +1,3 @@
+cascade = CascadeType.ALL, cuando guardes o borres un producto:
+también se guardan o eliminan automáticamente sus tallas, colores, imágenes y categorías asociadas,
+manteniendo todo sin duplicados ni registros huérfanos.
