@@ -1,5 +1,7 @@
 package com.ecomerce.zapa.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -18,13 +20,14 @@ public class Usuario {
     private Integer id_usuario;
     @Column(nullable = false, length = 100)
     private String nombre;
-    
+
     @Column(nullable = false, length = 100, unique = true)
     private String email;
-    
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     private String clave;
-    
+
     @Column(nullable = true, length = 9)
     private String telefono;
 

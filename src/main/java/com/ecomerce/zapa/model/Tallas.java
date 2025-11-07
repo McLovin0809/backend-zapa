@@ -31,6 +31,6 @@ public class Tallas {
     private Talla talla;
 
     @Column(nullable = false)
-    private Integer stock_talla; 
+    private Integer stock_talla;
 
 }
