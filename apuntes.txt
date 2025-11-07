@@ -1,3 +1,11 @@
 cascade = CascadeType.ALL, cuando guardes o borres un producto:
 también se guardan o eliminan automáticamente sus tallas, colores, imágenes y categorías asociadas,
 manteniendo todo sin duplicados ni registros huérfanos.
+
+Spring Security
+se encarga de toda la parte de:
+Autenticación → comprobar quién eres (login).
+Autorización → verificar qué puedes hacer según tu rol (ADMIN, CLIENTE, etc.).
+Protección → contra ataques como CSRF, inyección, sesiones inseguras, etc.
+
+En resumen: Spring Security protege tu API y tus endpoints.

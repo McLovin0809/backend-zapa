@@ -3,8 +3,11 @@ package com.ecomerce.zapa.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import com.ecomerce.zapa.model.Producto;
 
+@Repository
 public interface ProductoRepository extends JpaRepository<Producto, Integer>{
 
     // uscar  x marca
