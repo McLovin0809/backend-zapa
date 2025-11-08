@@ -37,4 +37,16 @@ public class ColorService {
         colorRepository.deleteById(id);
     }
 
+    public Color partialUpdate(Color color) {
+        Color existingColor = colorRepository.findById(color.getId_color()).orElse(null);
+        if (existingColor != null) {
+            if (color.getDescripcion() != null) {
+                existingColor.setDescripcion(color.getDescripcion());
+            }
+            return colorRepository.save(existingColor);
+        }
+        return null;
+    }
+
+
 }

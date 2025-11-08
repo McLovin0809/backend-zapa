@@ -6,31 +6,77 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ecomerce.zapa.model.ProductosVenta;
-import com.ecomerce.zapa.repository.ProductosVentaRepository;
+import com.ecomerce.zapa.model.Producto;
+import com.ecomerce.zapa.repository.ProductoRepository;
 
 import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
 public class ProductoService {
+
     @Autowired
-    private ProductosVentaRepository productosVentaRepository;
+    private ProductoRepository productoRepository;
 
-    public List<ProductosVenta> listarProductosVenta() {
-        return productosVentaRepository.findAll();
+    public List<Producto> listarProductos() {
+        return productoRepository.findAll();
     }
 
-    public Optional<ProductosVenta> obtenerPorId(Integer id) {
-        return productosVentaRepository.findById(id);
+    public Optional<Producto> obtenerPorId(Integer id) {
+        return productoRepository.findById(id);
     }
 
-    public ProductosVenta guardarProductosVenta(ProductosVenta productosVenta) {
-        return productosVentaRepository.save(productosVenta);
+    public Producto guardarProducto(Producto producto) {
+        return productoRepository.save(producto);
     }
 
-    public void eliminarProductosVenta(Integer id) {
-        productosVentaRepository.deleteById(id);
+    public Producto actualizarProducto(Producto producto) {
+        return productoRepository.save(producto);
     }
 
+    public void eliminarProducto(Integer id) {
+        productoRepository.deleteById(id);
+    }
+
+    public Producto partialUpdate(Producto producto) {
+        if (producto == null || producto.getId_producto() == null) {
+            return null;
+        }
+
+        Producto existente = productoRepository.findById(producto.getId_producto()).orElse(null);
+        if (existente != null) {
+            if (producto.getNombre() != null) {
+                existente.setNombre(producto.getNombre());
+            }
+            if (producto.getDescripcion() != null) {
+                existente.setDescripcion(producto.getDescripcion());
+            }
+            if (producto.getPrecio() != null) {
+                existente.setPrecio(producto.getPrecio());
+            }
+            if (producto.getStock() != null) {
+                existente.setStock(producto.getStock());
+            }
+            if (producto.getDescuento() != null) {
+                existente.setDescuento(producto.getDescuento());
+            }
+            if (producto.getImgPrincipal() != null) {
+                existente.setImgPrincipal(producto.getImgPrincipal());
+            }
+            if (producto.getMarca() != null) {
+                existente.setMarca(producto.getMarca());
+            }
+            if (producto.getGenero() != null) {
+                existente.setGenero(producto.getGenero());
+            }
+            if (producto.getMaterial() != null) {
+                existente.setMaterial(producto.getMaterial());
+            }
+            if (producto.getEcofriendly() != null) {
+                existente.setEcofriendly(producto.getEcofriendly());
+            }
+            return productoRepository.save(existente);
+        }
+        return null;
+    }
 }

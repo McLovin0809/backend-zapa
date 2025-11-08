@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-/*import org.springframework.web.bind.annotation.DeleteMapping;*/
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-/*import org.springframework.web.bind.annotation.PatchMapping;*/
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -49,20 +49,20 @@ public class AuditoriaProducoController {
         return ResponseEntity.ok(updateAuditoriaProducto);
     }
 
-    /*@PatchMapping("/{id}")
-    public ResponseEntity<AuditoriaProducto> updateParcialAuditoriaProducto(@PathVariable long id, @RequestBody AuditoriaProducto auditoriaProducto) {
+    @PatchMapping("/{id}")
+    public ResponseEntity<AuditoriaProducto> updateParcialAuditoriaProducto(@PathVariable Integer id, @RequestBody AuditoriaProducto auditoriaProducto) {
         auditoriaProducto.setId_auditoria(id);
         AuditoriaProducto updateAuditoriaProducto = auditoriaProductoService.partialUpdate(auditoriaProducto);
         if (updateAuditoriaProducto == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(updateAuditoriaProducto)
+        return ResponseEntity.ok(updateAuditoriaProducto);
     }
     
 
-    @DeleteMapping("/{id}")
+   /*  @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFaccion(@PathVariable long id) {
-        auditoriaProductoService.dele
+        auditoriaProductoService.
     }
     */
 }

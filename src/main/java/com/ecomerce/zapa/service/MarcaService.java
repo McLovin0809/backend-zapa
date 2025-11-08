@@ -37,4 +37,16 @@ public class MarcaService {
         marcaRepository.deleteById(id);
     }
 
+    public Marca partialUpdate(Marca marca) {
+    Marca existingMarca = marcaRepository.findById(marca.getId_marca()).orElse(null);
+    if (existingMarca != null) {
+        if (marca.getNombre() != null) {
+            existingMarca.setNombre(marca.getNombre());
+        }
+        return marcaRepository.save(existingMarca);
+    }
+    return null;
+}
+
+
 }

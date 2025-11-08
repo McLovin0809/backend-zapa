@@ -37,4 +37,15 @@ public class TallaService {
         tallaRepository.deleteById(id);
     }
 
+    public Talla partialUpdate(Talla talla) {
+        Talla existente = tallaRepository.findById(talla.getId_talla()).orElse(null);
+        if (existente != null) {
+            if (talla.getNumero() != null) {
+                existente.setNumero(talla.getNumero());
+            }
+            return tallaRepository.save(existente);
+        }
+        return null;
+    }
+
 }

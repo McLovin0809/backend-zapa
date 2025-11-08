@@ -4,9 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-/*import org.springframework.web.bind.annotation.DeleteMapping;*/
 import org.springframework.web.bind.annotation.GetMapping;
-/*import org.springframework.web.bind.annotation.PatchMapping;*/
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -40,7 +39,7 @@ public class AuditoriaVentaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AuditoriaVenta> updateAuditoriaVenta(@PathVariable Long id, @RequestBody AuditoriaVenta auditoriaVenta) {
+    public ResponseEntity<AuditoriaVenta> updateAuditoriaVenta(@PathVariable Integer id, @RequestBody AuditoriaVenta auditoriaVenta) {
         auditoriaVenta.setId_auditoria_venta(id);
         AuditoriaVenta actualizada = auditoriaVentaService.guardarAuditoria(auditoriaVenta);
         if (actualizada == null) {
@@ -48,5 +47,17 @@ public class AuditoriaVentaController {
         }
         return ResponseEntity.ok(actualizada);
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<AuditoriaVenta> updateParcialAuditoriaVenta(@PathVariable Integer id, @RequestBody AuditoriaVenta auditoriaVenta) {
+        auditoriaVenta.setId_auditoria_venta(id);
+        AuditoriaVenta actualizada = auditoriaVentaService.parcialudate(auditoriaVenta);
+        if (actualizada == null) {
+        return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(actualizada);
+    }
+
+
 }
 
