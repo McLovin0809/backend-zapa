@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class AuditoriaVenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_auditoria_venta;
+    private Integer id_auditoria_venta;
 
     @ManyToOne
     @JoinColumn(name = "id_venta")

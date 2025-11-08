@@ -40,7 +40,7 @@ public class AuditoriaProducoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AuditoriaProducto> updateAuditoriaProducto(@PathVariable long id, @RequestBody AuditoriaProducto auditoriaProducto) {
+    public ResponseEntity<AuditoriaProducto> updateAuditoriaProducto(@PathVariable Integer id, @RequestBody AuditoriaProducto auditoriaProducto) {
         auditoriaProducto.setId_auditoria(id);
         AuditoriaProducto updateAuditoriaProducto = auditoriaProductoService.guardarAuditoria(auditoriaProducto);
         if (updateAuditoriaProducto == null) {

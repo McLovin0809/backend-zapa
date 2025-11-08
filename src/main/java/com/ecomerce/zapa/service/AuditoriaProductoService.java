@@ -37,4 +37,35 @@ public class AuditoriaProductoService {
         return auditoriaProductoRepository.save(auditoria);
     }
 
+    /* 
+    public AuditoriaProducto partialUpdate(AuditoriaProducto auditoriaProducto){
+        AuditoriaProducto existingAuditoriaProducto = auditoriaProductoRepository.findById(auditoriaProducto.getId_auditoria()).orElse(null);
+        if(existingAuditoriaProducto != null) {
+            existingAuditoriaProducto.setDescuento(auditoriaProducto.getDescuento());
+        }
+        if(existingAuditoriaProducto != null) {
+            existingAuditoriaProducto.setFechaCambio(auditoriaProducto.getFechaCambio());
+        }
+        if (existingAuditoriaProducto != null) {
+            existingAuditoriaProducto.setId_auditoria(auditoriaProducto.getId_auditoria());
+        }
+        if (existingAuditoriaProducto != null) {
+            existingAuditoriaProducto.setMotivo(auditoriaProducto.getMotivo());
+        }
+        if (existingAuditoriaProducto != null) {
+            existingAuditoriaProducto.setPrecioAnterior(auditoriaProducto.getPrecioAnterior());
+        }
+        if (existingAuditoriaProducto != null) {
+            existingAuditoriaProducto.setPrecioNuevo(auditoriaProducto.getPrecioNuevo());
+        }
+        if (existingAuditoriaProducto != null) {
+            existingAuditoriaProducto.setProducto(auditoriaProducto.getProducto());
+        }
+    }*/
+
+    /*public void deleteById(long id){
+        naverService.deleteByAuditoriaProducto(id);
+
+    }*/
+
 }
