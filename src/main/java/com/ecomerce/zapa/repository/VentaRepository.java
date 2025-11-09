@@ -10,13 +10,13 @@ import com.ecomerce.zapa.model.Venta;
 
 @Repository
 public interface VentaRepository extends JpaRepository<Venta, Integer> {
-    // Buscar ventas por usuario
+    // buscar ventas por usuario
     List<Venta> findByUsuario_IdUsuario(Integer idUsuario);
 
-    // Buscar ventas por estado (PENDIENTE, PAGADO, etc.)
+    // buscar ventas por estado (PENDIENTE, PAGADO, etc.)
     List<Venta> findByEstado_Nombre(String estado);
 
-    // Buscar ventas entre fechas
+    // buscar ventas entre fechas
     List<Venta> findByFechaVentaBetween(LocalDateTime desde, LocalDateTime hasta);
 
     

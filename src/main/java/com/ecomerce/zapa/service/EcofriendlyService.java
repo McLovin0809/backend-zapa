@@ -1,7 +1,7 @@
 package com.ecomerce.zapa.service;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,16 +21,22 @@ public class EcofriendlyService {
         return ecofriendlyRepository.findAll();
     }
 
-    public Optional<Ecofriendly> obtenerPorId(Integer id) {
-        return ecofriendlyRepository.findById(id);
+    public Ecofriendly obtenerPorId(Integer id) {
+        return ecofriendlyRepository.findById(id).orElse(null);
     }
 
-    public Ecofriendly guardarEcofriendly(Ecofriendly ecofriendly) {
+    public Ecofriendly registarEcofriendly(Ecofriendly ecofriendly) {
         return ecofriendlyRepository.save(ecofriendly);
     }
 
-    public Ecofriendly actualizarEcofriendly(Ecofriendly ecofriendly) {
-        return ecofriendlyRepository.save(ecofriendly);
+    public Ecofriendly actualizarEcofriendly(Integer id, Ecofriendly ecofriendly) {
+        // registro existente
+        Ecofriendly existingEco = ecofriendlyRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("ecofriendly no encontrado"));
+
+        existingEco.setEsEcofriendly(ecofriendly.isEsEcofriendly());
+
+        return ecofriendlyRepository.save(existingEco);
     }
 
     public void eliminarEcofriendly(Integer id) {

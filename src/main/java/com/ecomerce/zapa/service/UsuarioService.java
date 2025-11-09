@@ -1,8 +1,6 @@
 package com.ecomerce.zapa.service;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,8 +23,8 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Optional<Usuario> obtenerPorId(Integer id) {
-        return usuarioRepository.findById(id);
+    public Usuario obtenerPorId(Integer id) {
+        return usuarioRepository.findById(id).orElse(null);
     }
 
     public Usuario registrarUsuario(Usuario usuario) {
@@ -34,8 +32,19 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public Usuario actualizarUsuario(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+    public Usuario actualizarUsuario(Integer id, Usuario usuario) {
+        Usuario existingUsuario = usuarioRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("usuario no encontrado"));
+        
+        if(usuario.getNombre() != null) existingUsuario.setNombre(usuario.getNombre());
+        if(usuario.getEmail()!= null) existingUsuario.setEmail(usuario.getEmail());
+        if(usuario.getClave() != null) {
+            existingUsuario.setClave(passwordEncoder.encode(usuario.getClave()));
+        }
+        if(usuario.getTelefono() != null) existingUsuario.setTelefono(usuario.getTelefono());
+        if (usuario.getRol() != null)existingUsuario.setRol(usuario.getRol());
+
+        return usuarioRepository.save(existingUsuario);
     }
 
     public void eliminarUsuario(Integer id) {

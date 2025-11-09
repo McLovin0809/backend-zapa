@@ -1,7 +1,6 @@
 package com.ecomerce.zapa.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,20 +20,36 @@ public class ColorService {
         return colorRepository.findAll();
     }
 
-    public Optional<Color> obtenerPorId(Integer id) {
-        return colorRepository.findById(id);
+    public Color obtenerPorId(Integer id) {
+        return colorRepository.findById(id).orElse(null);
     }
 
-    public Color guardarColor(Color color) {
+    public Color registarColor(Color color) {
         return colorRepository.save(color);
     }
 
-    public Color actualizarColor(Color color) {
-        return colorRepository.save(color);
+    public Color actualizarColor(Integer id, Color color) {
+        // color existente
+        Color existingColor = colorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("color no encontrado"));
+
+        if (color.getDescripcion() != null)
+            existingColor.setDescripcion(color.getDescripcion());
+
+        return colorRepository.save(existingColor);
     }
 
     public void eliminarColor(Integer id) {
         colorRepository.deleteById(id);
+    }
+
+    // personalizados
+    public Color buscarPorNombre(String nombre) {
+        return colorRepository.findByNombre(nombre);
+    }
+
+    public boolean existeColor(String nombre) {
+        return colorRepository.existsByNombre(nombre);
     }
 
 }

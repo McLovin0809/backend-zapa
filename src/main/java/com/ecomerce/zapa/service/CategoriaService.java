@@ -1,7 +1,6 @@
 package com.ecomerce.zapa.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,20 +20,35 @@ public class CategoriaService {
         return categoriaRepository.findAll();
     }
 
-    public Optional<Categoria> obtenerPorId(Integer id) {
-        return categoriaRepository.findById(id);
+    public Categoria obtenerPorId(Integer id) {
+        return categoriaRepository.findById(id).orElse(null);
     }
 
-    public Categoria guardarCategoria(Categoria categoria) {
+    public Categoria registarCategoria(Categoria categoria) {
         return categoriaRepository.save(categoria);
     }
 
-    public Categoria actualizarCategoria(Categoria categoria) {
-        return categoriaRepository.save(categoria);
+    public Categoria actualizarCategoria(Integer id, Categoria categoria) {
+        // categoria existente
+        Categoria existingCategoria = categoriaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("categoria no encontrada"));
+
+        if (categoria.getNombre() != null)
+            existingCategoria.setNombre(categoria.getNombre());
+
+        return categoriaRepository.save(existingCategoria);
     }
 
     public void eliminarCategoria(Integer id) {
         categoriaRepository.deleteById(id);
     }
 
+    // personalizados
+    public Categoria buscarPorNombreExacto(String nombre) {
+        return categoriaRepository.findByNombre(nombre);
+    }
+
+    public boolean existeCategoria(String nombre) {
+        return categoriaRepository.existsByNombre(nombre);
+    }
 }

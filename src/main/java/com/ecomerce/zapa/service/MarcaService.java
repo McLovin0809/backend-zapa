@@ -1,7 +1,6 @@
 package com.ecomerce.zapa.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,20 +20,39 @@ public class MarcaService {
         return marcaRepository.findAll();
     }
 
-    public Optional<Marca> obtenerPorId(Integer id) {
-        return marcaRepository.findById(id);
+    public Marca obtenerPorId(Integer id) {
+        return marcaRepository.findById(id).orElse(null);
     }
 
-    public Marca guardarMarca(Marca marca) {
+    public Marca registarMarca(Marca marca) {
         return marcaRepository.save(marca);
     }
 
-    public Marca actualizarMarca(Marca marca) {
-        return marcaRepository.save(marca);
+    public Marca actualizarMarca(Integer id, Marca marca) {
+        Marca existingMarca = marcaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("marca no encontrada"));
+
+        if (marca.getNombre() != null)
+            existingMarca.setNombre(marca.getNombre());
+
+        return marcaRepository.save(existingMarca);
     }
 
     public void eliminarMarca(Integer id) {
         marcaRepository.deleteById(id);
+    }
+
+    // personalizados
+    public Marca buscarPorNombreExacto(String nombre) {
+        return marcaRepository.findByNombre(nombre);
+    }
+
+    public List<Marca> buscarPorNombreParcial(String nombre) {
+        return marcaRepository.findByNombreContainingIgnoreCase(nombre);
+    }
+
+    public boolean existeMarca(String nombre) {
+        return marcaRepository.existsByNombre(nombre);
     }
 
 }

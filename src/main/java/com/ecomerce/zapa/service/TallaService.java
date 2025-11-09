@@ -1,7 +1,6 @@
 package com.ecomerce.zapa.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,16 +20,24 @@ public class TallaService {
         return tallaRepository.findAll();
     }
 
-    public Optional<Talla> obtenerPorId(Integer id) {
-        return tallaRepository.findById(id);
+    public Talla obtenerPorId(Integer id) {
+        return tallaRepository.findById(id).orElse(null);
     }
 
-    public Talla guardarTalla(Talla talla) {
+    public Talla registarTalla(Talla talla) {
         return tallaRepository.save(talla);
     }
 
-    public Talla actualizarTalla(Talla talla) {
-        return tallaRepository.save(talla);
+    public Talla actualizarTalla(Integer id, Talla talla) {
+        // Buscar la talla existente
+        Talla existingTalla = tallaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("talla no encontrada"));
+
+        // Actualizar solo si el valor no es nulo
+        if (talla.getNumero() != null)
+            existingTalla.setNumero(talla.getNumero());
+
+        return tallaRepository.save(existingTalla);
     }
 
     public void eliminarTalla(Integer id) {

@@ -21,6 +21,6 @@ public class Color {
     private Integer id_color;
 
     @Column(nullable = false, unique = true, length = 50)
-    private String descrpcion; 
+    private String descripcion; 
 
 }

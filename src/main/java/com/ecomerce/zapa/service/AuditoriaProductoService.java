@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ecomerce.zapa.model.AuditoriaProducto;
+import com.ecomerce.zapa.model.Producto;
+import com.ecomerce.zapa.model.Usuario;
 import com.ecomerce.zapa.repository.AuditoriaProductoRepository;
+import com.ecomerce.zapa.repository.ProductoRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -17,7 +20,10 @@ public class AuditoriaProductoService {
     @Autowired
     private AuditoriaProductoRepository auditoriaProductoRepository;
 
-    public List<AuditoriaProducto> listarAuditorias() {
+    @Autowired
+    private ProductoRepository productoRepository;
+
+    public List<AuditoriaProducto> listarAuditoriasproductos() {
         return auditoriaProductoRepository.findAll();
     }
 
@@ -33,39 +39,28 @@ public class AuditoriaProductoService {
         return auditoriaProductoRepository.findByFechaCambioBetween(inicio, fin);
     }
 
-    public AuditoriaProducto guardarAuditoria(AuditoriaProducto auditoria) {
+    public AuditoriaProducto registrarAuditoriaProductos(AuditoriaProducto auditoria) {
         return auditoriaProductoRepository.save(auditoria);
     }
 
-    /* 
-    public AuditoriaProducto partialUpdate(AuditoriaProducto auditoriaProducto){
-        AuditoriaProducto existingAuditoriaProducto = auditoriaProductoRepository.findById(auditoriaProducto.getId_auditoria()).orElse(null);
-        if(existingAuditoriaProducto != null) {
-            existingAuditoriaProducto.setDescuento(auditoriaProducto.getDescuento());
-        }
-        if(existingAuditoriaProducto != null) {
-            existingAuditoriaProducto.setFechaCambio(auditoriaProducto.getFechaCambio());
-        }
-        if (existingAuditoriaProducto != null) {
-            existingAuditoriaProducto.setId_auditoria(auditoriaProducto.getId_auditoria());
-        }
-        if (existingAuditoriaProducto != null) {
-            existingAuditoriaProducto.setMotivo(auditoriaProducto.getMotivo());
-        }
-        if (existingAuditoriaProducto != null) {
-            existingAuditoriaProducto.setPrecioAnterior(auditoriaProducto.getPrecioAnterior());
-        }
-        if (existingAuditoriaProducto != null) {
-            existingAuditoriaProducto.setPrecioNuevo(auditoriaProducto.getPrecioNuevo());
-        }
-        if (existingAuditoriaProducto != null) {
-            existingAuditoriaProducto.setProducto(auditoriaProducto.getProducto());
-        }
-    }*/
+    // registrar una nueva versión cuando cambia el producto
+    public AuditoriaProducto registrarNuevaVersion(Integer idProducto, Usuario usuario, Double precioAnterior, Double precioNuevo, Double descuento) {
+        Producto producto = productoRepository.findById(idProducto)
+            .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-    /*public void deleteById(long id){
-        naverService.deleteByAuditoriaProducto(id);
+        AuditoriaProducto nuevaAuditoria = new AuditoriaProducto();
+        nuevaAuditoria.setProducto(producto);
+        nuevaAuditoria.setFechaCambio(LocalDateTime.now());
+        nuevaAuditoria.setPrecioAnterior(precioAnterior);
+        nuevaAuditoria.setPrecioNuevo(precioNuevo);
+        nuevaAuditoria.setDescuento(descuento);
+        nuevaAuditoria.setUsuario(usuario); 
 
-    }*/
+        return auditoriaProductoRepository.save(nuevaAuditoria);
+    }
+
+    public void deleteById(Integer id){
+        auditoriaProductoRepository.deleteById(id);
+    }
 
 }

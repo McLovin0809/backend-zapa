@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class AuditoriaProducto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_auditoria;
+    private Integer id_auditoriaProducto;
 
     @ManyToOne
     @JoinColumn(name = "id_producto")
@@ -38,7 +38,7 @@ public class AuditoriaProducto {
     @Column(nullable = false)
     private Double precioNuevo;
 
-    private Double descuento; // 
+    private Double descuento; 
 
     @Column(nullable = false)
     private LocalDateTime fechaCambio = LocalDateTime.now();

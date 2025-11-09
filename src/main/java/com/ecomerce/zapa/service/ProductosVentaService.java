@@ -1,56 +1,52 @@
 package com.ecomerce.zapa.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.ecomerce.zapa.model.Producto;
-import com.ecomerce.zapa.repository.ProductoRepository;
-
+import com.ecomerce.zapa.model.ProductosVenta;
+import com.ecomerce.zapa.repository.ProductosVentaRepository;
 import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
 public class ProductosVentaService {
+
     @Autowired
-    private ProductoRepository productoRepository;
+    private ProductosVentaRepository productosVentaRepository;
 
-    public List<Producto> listarProductos() {
-        return productoRepository.findAll();
+    public List<ProductosVenta> listarProductosVenta() {
+        return productosVentaRepository.findAll();
     }
 
-    public Optional<Producto> obtenerPorId(Integer id) {
-        return productoRepository.findById(id);
+    public ProductosVenta obtenerPorId(Integer id) {
+        return productosVentaRepository.findById(id).orElse(null);
     }
 
-    public Producto guardarProducto(Producto producto) {
-        return productoRepository.save(producto);
+    public ProductosVenta registarProductosVenta(ProductosVenta productosVenta) {
+        return productosVentaRepository.save(productosVenta);
     }
 
-    public Producto actualizarProducto(Producto producto) {
-        return productoRepository.save(producto);
+    public ProductosVenta actualizarProductosVenta(Integer id, ProductosVenta productosVenta) {
+        //  detalle existente
+        ProductosVenta existingDetalle = productosVentaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("detalle de productos de venta no encontrado"));
+
+        // Actualizar solo los campos que vienen distintos (evita null)
+        if (productosVenta.getVenta() != null)
+            existingDetalle.setVenta(productosVenta.getVenta());
+        if (productosVenta.getProducto() != null)
+            existingDetalle.setProducto(productosVenta.getProducto());
+        if (productosVenta.getCantidad() != null)
+            existingDetalle.setCantidad(productosVenta.getCantidad());
+        if (productosVenta.getSubtotal() != null)
+            existingDetalle.setSubtotal(productosVenta.getSubtotal());
+
+        return productosVentaRepository.save(existingDetalle);
     }
 
-    public void eliminarProducto(Integer id) {
-        productoRepository.deleteById(id);
-    }
-
-    public List<Producto> buscarPorMarca(String nombreMarca) {
-        return productoRepository.findByMarca_Nombre(nombreMarca);
-    }
-
-    public List<Producto> buscarPorRangoDePrecio(Double min, Double max) {
-        return productoRepository.findByPrecioBetween(min, max);
-    }
-
-    public List<Producto> buscarPorCategoria(String categoria) {
-        return productoRepository.findByCategorias_Categoria_Nombre(categoria);
-    }
-
-    public List<Producto> buscarPorGenero(String genero) {
-        return productoRepository.findByGenero_Nombre(genero);
+    public void eliminarProductosVenta(Integer id) {
+        productosVentaRepository.deleteById(id);
     }
 
 }
