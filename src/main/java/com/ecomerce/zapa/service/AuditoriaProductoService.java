@@ -59,8 +59,4 @@ public class AuditoriaProductoService {
         return auditoriaProductoRepository.save(nuevaAuditoria);
     }
 
-    public void deleteById(Integer id){
-        auditoriaProductoRepository.deleteById(id);
-    }
-
 }

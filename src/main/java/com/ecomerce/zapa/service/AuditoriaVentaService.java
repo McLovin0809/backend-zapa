@@ -50,10 +50,6 @@ public class AuditoriaVentaService {
             .orElseThrow(() -> new RuntimeException("auditoria de venta no encontrada"));
     }
 
-    public void eliminarAuditoriaService(Integer id) {
-        auditoriaVentaRepository.deleteById(id);
-    }
-
     // metodos persolazidaos
     public List<AuditoriaVenta> filtrarPorFechas(LocalDateTime inicio, LocalDateTime fin) {
         return auditoriaVentaRepository.findByFechaRegistroBetween(inicio, fin);
