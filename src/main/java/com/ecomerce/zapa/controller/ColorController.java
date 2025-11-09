@@ -62,6 +62,7 @@ public class ColorController {
         return ResponseEntity.noContent().build();
     }
 
+    
     // personalizados
     @GetMapping("/buscar/{nombre}")
     public ResponseEntity<Color> buscarPorNombre(@PathVariable String nombre) {

@@ -44,4 +44,12 @@ public class TallaService {
         tallaRepository.deleteById(id);
     }
 
+    // peronalizados
+    public Talla buscarPorNumero(String numero) {
+        return tallaRepository.findByNumero(numero);
+    }
+
+    public boolean existePorNumero(String numero) {
+        return tallaRepository.existsByNumero(numero);
+    }
 }

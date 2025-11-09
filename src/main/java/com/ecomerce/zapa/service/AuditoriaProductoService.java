@@ -46,7 +46,7 @@ public class AuditoriaProductoService {
     // registrar una nueva versión cuando cambia el producto
     public AuditoriaProducto registrarNuevaVersion(Integer idProducto, Usuario usuario, Double precioAnterior, Double precioNuevo, Double descuento) {
         Producto producto = productoRepository.findById(idProducto)
-            .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+            .orElseThrow(() -> new RuntimeException("producto no encontrado"));
 
         AuditoriaProducto nuevaAuditoria = new AuditoriaProducto();
         nuevaAuditoria.setProducto(producto);

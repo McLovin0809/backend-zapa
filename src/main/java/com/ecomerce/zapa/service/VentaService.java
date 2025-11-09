@@ -55,6 +55,23 @@ public class VentaService {
     public void eliminarVenta(Integer id) {
         ventaRepository.deleteById(id);
     }
+    
+    public Venta partialUpdate(Venta venta) {
+        Venta existente = ventaRepository.findById(venta.getId_venta()).orElse(null);
+        if (existente != null) {
+            if (venta.getUsuario() != null) {
+                existente.setUsuario(venta.getUsuario());
+            }
+            if (venta.getEstado() != null) {
+                existente.setEstado(venta.getEstado());
+            }
+            if (venta.getTotal() != null) {
+                existente.setTotal(venta.getTotal());
+            }
+            return ventaRepository.save(existente);
+        }
+        return null;
+    }
 
     // personalizados 
     public List<Venta> buscarPorUsuario(Integer idUsuario) {
