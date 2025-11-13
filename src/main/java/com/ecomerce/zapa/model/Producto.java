@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_producto;
+    private Integer idProducto;
 
     @Column(nullable = false, length = 100)
     private String nombre;
@@ -37,8 +37,8 @@ public class Producto {
 
     private Integer stock;
 
-    @Column(name = "descuento", columnDefinition = "DEFAULT 0.00")
-    private Double descuento;
+    @Column(name = "descuento")
+    private Double descuento = 0.00;
 
     @Column(name = "imagen_principal")
     private String imgPrincipal;

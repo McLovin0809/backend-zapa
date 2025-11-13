@@ -50,7 +50,7 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> actualizar(@PathVariable Integer id, @RequestBody Usuario usuario) {
-        usuario.setId_usuario(id);
+        usuario.setIdUsuario(id);
         Usuario actualizado = usuarioService.actualizarUsuario(id, usuario);
         return ResponseEntity.ok(actualizado);
     }

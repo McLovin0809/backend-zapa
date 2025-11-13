@@ -12,7 +12,7 @@ import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-@SuppressWarnings("null")
+//@SuppressWarnings("null")
 public class RolService {
     
     @Autowired

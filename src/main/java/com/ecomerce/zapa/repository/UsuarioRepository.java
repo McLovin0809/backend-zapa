@@ -13,7 +13,7 @@ public interface UsuarioRepository  extends JpaRepository<Usuario, Integer>{
 
     List<Usuario> findByRol_Nombre(String rol); // listar clientes o admins
 
-    Usuario findByEmailAndPassword(String email, String password); // login simple (sin seguridad)
+    Usuario findByEmailAndClave(String email, String clave); // login simple (sin seguridad)
 
     
 } 

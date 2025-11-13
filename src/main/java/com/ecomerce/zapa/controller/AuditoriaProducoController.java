@@ -60,7 +60,7 @@ public class AuditoriaProducoController {
 
         // asignamos 
         Usuario usuario = new Usuario();
-        usuario.setId_usuario(idUsuario);
+        usuario.setIdUsuario(idUsuario);
 
         AuditoriaProducto nueva = auditoriaProductoService.registrarNuevaVersion(
                 idProducto, usuario, precioAnterior, precioNuevo, descuento);

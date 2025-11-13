@@ -33,8 +33,8 @@ public class ColorService {
         Color existingColor = colorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("color no encontrado"));
 
-        if (color.getDescripcion() != null)
-            existingColor.setDescripcion(color.getDescripcion());
+        if (color.getNombre() != null)
+            existingColor.setNombre(color.getNombre());
 
         return colorRepository.save(existingColor);
     }

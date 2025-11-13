@@ -18,9 +18,9 @@ import lombok.NoArgsConstructor;
 public class Color {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_color;
+    private Integer idColor;
 
     @Column(nullable = false, unique = true, length = 50)
-    private String descripcion; 
+    private String nombre; 
 
 }

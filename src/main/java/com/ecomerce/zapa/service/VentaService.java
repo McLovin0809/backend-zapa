@@ -34,8 +34,8 @@ public class VentaService {
         Venta existingVenta = ventaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("venta no encontrada"));
 
-        if (venta.getFecha_venta() != null)
-            existingVenta.setFecha_venta(venta.getFecha_venta());
+        if (venta.getFechaVenta() != null)
+            existingVenta.setFechaVenta(venta.getFechaVenta());
         if (venta.getTotal() != null)
             existingVenta.setTotal(venta.getTotal());
 
@@ -57,7 +57,7 @@ public class VentaService {
     }
     
     public Venta partialUpdate(Venta venta) {
-        Venta existente = ventaRepository.findById(venta.getId_venta()).orElse(null);
+        Venta existente = ventaRepository.findById(venta.getIdVenta()).orElse(null);
         if (existente != null) {
             if (venta.getUsuario() != null) {
                 existente.setUsuario(venta.getUsuario());

@@ -48,7 +48,7 @@ public class ColorController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Color> actualizarColor(@PathVariable Integer id, @RequestBody Color color) {
-        color.setId_color(id);
+        color.setIdColor(id);
         Color actualizado = colorService.actualizarColor(id, color);
         if (actualizado == null) {
             return ResponseEntity.notFound().build();

@@ -24,9 +24,9 @@ import lombok.NoArgsConstructor;
 public class Venta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_venta;
+    private Integer idVenta;
 
-    private LocalDateTime fecha_venta;
+    private LocalDateTime fechaVenta;
     private Double total;
 
     @ManyToOne
