@@ -129,7 +129,7 @@ public class ProductoService {
     }
 
     public List<Producto> buscarConDescuento(Double descuento) {
-        return productoRepository.findByDescuentoActivo(descuento);
+        return productoRepository.findByDescuentoGreaterThan(descuento);
     }
 
 }

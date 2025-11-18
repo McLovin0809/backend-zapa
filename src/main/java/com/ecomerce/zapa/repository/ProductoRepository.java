@@ -23,7 +23,7 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer>{
     List<Producto> findByPrecioBetween(Double min, Double max);
 
     // buscar productos con descuento activo
-    List<Producto> findByDescuentoActivo(Double descuento);
+    List<Producto> findByDescuentoGreaterThan(Double descuentoMinimo);
 
 
 } 
