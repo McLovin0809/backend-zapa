@@ -75,6 +75,7 @@ public class UsuarioService {
 
         return usuarioRepository.save(existente);
     }
+    // cascade
 
     public void eliminarUsuario(Integer id) {
         usuarioRepository.deleteById(id);
