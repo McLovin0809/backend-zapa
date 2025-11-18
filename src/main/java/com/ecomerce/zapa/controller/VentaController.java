@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecomerce.zapa.model.Venta;
 import com.ecomerce.zapa.service.VentaService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/ventas")
 public class VentaController {
@@ -26,6 +28,7 @@ public class VentaController {
     private VentaService ventaService;
 
     @GetMapping
+    @Operation(summary = "obtener todas las ventas", description = "DEVUELVE la lista de ventas registradas.")
     public ResponseEntity<List<Venta>> listartodas() {
         List<Venta> ventas = ventaService.listarVentas();
         if (ventas.isEmpty()) {
@@ -35,6 +38,7 @@ public class VentaController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "buscar venta por id", description = "devuelve una venta segn su id")
     public ResponseEntity<Venta> obtenerPorId(@PathVariable Integer id) {
         Venta venta = ventaService.obtenerPorId(id);
         if (venta == null) {
@@ -44,12 +48,14 @@ public class VentaController {
     }
 
     @PostMapping
+    @Operation(summary = "agregar una venta", description = "crea una venta nueva")
     public ResponseEntity<Venta> registrarVenta(@RequestBody Venta venta) {
         Venta nueva = ventaService.registrarVenta(venta);
         return ResponseEntity.status(201).body(nueva);
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "actualizar venta", description = "modifica una venta existente x su id")
     public ResponseEntity<Venta> actualizarVenta(@PathVariable Integer id, @RequestBody Venta venta) {
         venta.setIdVenta(id);
         Venta actualizada = ventaService.actualizarVenta(id, venta);
@@ -57,6 +63,7 @@ public class VentaController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "eliminar venta", description = "elimina una venta x su id")
     public ResponseEntity<Void> eliminarVenta(@PathVariable Integer id) {
         ventaService.eliminarVenta(id);
         return ResponseEntity.noContent().build();
@@ -64,6 +71,7 @@ public class VentaController {
 
     // personalizados
     @GetMapping("/usuario/{idUsuario}")
+    @Operation(summary = "buscar ventas por usuario", description = "retorna todas las ventas asociadas a un usuario especifico mediante su id.")
     public ResponseEntity<List<Venta>> buscarPorUsuario(@PathVariable Integer idUsuario) {
         List<Venta> ventas = ventaService.buscarPorUsuario(idUsuario);
         if (ventas.isEmpty()) {
@@ -73,6 +81,7 @@ public class VentaController {
     }
 
     @GetMapping("/estado/{nombreEstado}")
+    @Operation(summary = "buscar ventas por estado", description = "filtra y devuelve todas las ventas que se encuentren en un estado específico, como 'pendiente', 'pagado' o 'en ruta'.")
     public ResponseEntity<List<Venta>> buscarPorEstado(@PathVariable String nombreEstado) {
         List<Venta> ventas = ventaService.buscarPorEstado(nombreEstado);
         if (ventas.isEmpty()) {
@@ -82,6 +91,7 @@ public class VentaController {
     }
 
     @GetMapping("/fecha")
+    @Operation(summary = "buscar ventas por rango de fechas", description = "permite obtener las ventas registradas entre dos fechas dadas")
     public ResponseEntity<List<Venta>> buscarPorRangoFechas(
             @RequestParam("desde") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime desde,
             @RequestParam("hasta") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime hasta) {

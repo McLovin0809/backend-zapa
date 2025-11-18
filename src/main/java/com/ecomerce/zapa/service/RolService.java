@@ -18,16 +18,30 @@ public class RolService {
     @Autowired
     private RolRepository rolRepository;
 
-    public List<Rol> findAll(){
+    public List<Rol> listarTodos(){
         return rolRepository.findAll();
     }
 
-    public Rol findById(Integer id) {
+    public Rol listraPorId(Integer id) {
         return rolRepository.findById(id).orElse(null);
     }
 
     
-    public Rol save(Rol rol) {
+    public Rol registrar(Rol rol) {
         return rolRepository.save(rol);
     } 
+
+    public Rol actualizar(Integer id, Rol rolNuevo) {
+        Rol existente = rolRepository.findById(id).orElse(null);
+        if (existente == null) {
+            return null;
+        }
+
+        existente.setNombre(rolNuevo.getNombre());
+        return rolRepository.save(existente);
+    }
+
+    public void eliminar(Integer id) {
+        rolRepository.deleteById(id);
+    }
 }

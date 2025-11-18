@@ -10,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,16 +29,20 @@ public class Usuario {
     private Integer idUsuario;
 
     @Column(nullable = false, length = 100)
+    @NotBlank(message = "elnombre es obligatorio")
     private String nombre;
 
     @Column(nullable = false, length = 100, unique = true)
+    @NotBlank(message = "el email no puede qdar vacio")
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
+    @NotBlank(message = "la clave es obligatoria")
     private String clave;
 
     @Column(nullable = true, length = 9)
+    @Positive(message = "no puede ser negativo")
     private String telefono;
 
     @ManyToOne

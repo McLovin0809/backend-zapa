@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecomerce.zapa.model.Marca;
 import com.ecomerce.zapa.service.MarcaService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/marcas")
 public class MarcaController {
@@ -24,6 +26,7 @@ public class MarcaController {
     private MarcaService marcaService;
 
     @GetMapping
+    @Operation(summary = "obtener todas las marcas", description = "DEVUELVE la lista de marcas registradas.")
     public ResponseEntity<List<Marca>> ListarTodas() {
         List<Marca> marcas = marcaService.listarMarcas();
         if (marcas.isEmpty()) {
@@ -33,6 +36,7 @@ public class MarcaController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "buscar marca por id", description = "devuelve una marca segn su id")
     public ResponseEntity<Marca> obtenerPorId(@PathVariable Integer id) {
         Marca marca = marcaService.obtenerPorId(id);
         if (marca == null) {
@@ -42,15 +46,17 @@ public class MarcaController {
     }
 
     @PostMapping
+    @Operation(summary = "agregar una marca", description = "crea una marca nueva")
     public ResponseEntity<Marca> registrarMarca(@RequestBody Marca marca) {
         Marca nueva = marcaService.registarMarca(marca);
         return ResponseEntity.status(201).body(nueva);
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "actualizar marca", description = "modifica una marca existente x su id")
     public ResponseEntity<Marca> actualizarMarca(@PathVariable Integer id, @RequestBody Marca marca) {
         marca.setId_marca(id);
-        Marca actualizada = marcaService.actualizarMarca(id,marca);
+        Marca actualizada = marcaService.actualizarMarca(id, marca);
         if (actualizada == null) {
             return ResponseEntity.notFound().build();
         }
@@ -58,6 +64,7 @@ public class MarcaController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "eliminar marca", description = "elimina una marca x su id")
     public ResponseEntity<Void> eliminarMarca(@PathVariable Integer id) {
         marcaService.eliminarMarca(id);
         return ResponseEntity.noContent().build();
@@ -65,6 +72,7 @@ public class MarcaController {
 
     // personalizados
     @GetMapping("/buscar/exacto/{nombre}")
+    @Operation(summary = "buscar marca por nombre exacto", description = "devuelve una marca cuyo nombre coincide exactamente con el valor buscado.")
     public ResponseEntity<Marca> buscarPorNombreExacto(@PathVariable String nombre) {
         Marca marca = marcaService.buscarPorNombreExacto(nombre);
         if (marca == null) {
@@ -74,6 +82,7 @@ public class MarcaController {
     }
 
     @GetMapping("/buscar/parcial/{nombre}")
+    @Operation(summary = "buscar marcas por coincidencia parcial", description = "devuelve una lista de marcas cuyo nombre contiene el texto indicado.")
     public ResponseEntity<List<Marca>> buscarPorNombreParcial(@PathVariable String nombre) {
         List<Marca> marcas = marcaService.buscarPorNombreParcial(nombre);
         if (marcas.isEmpty()) {
@@ -83,6 +92,7 @@ public class MarcaController {
     }
 
     @GetMapping("/existe/{nombre}")
+    @Operation(summary = "verificar existencia de marca", description = "indica si existe una marca registrada con el nombre especificado.")
     public ResponseEntity<Boolean> existeMarca(@PathVariable String nombre) {
         boolean existe = marcaService.existeMarca(nombre);
         return ResponseEntity.ok(existe);

@@ -9,3 +9,41 @@ Autorización → verificar qué puedes hacer según tu rol (ADMIN, CLIENTE, etc
 Protección → contra ataques como CSRF, inyección, sesiones inseguras, etc.
 
 En resumen: Spring Security protege tu API y tus endpoints.
+
+VALIDACIONES
+@NotBlank → Para Strings.
+No permite nulo, vacío ni espacios.
+
+@NotNull → Para cualquier tipo.
+El campo no puede ser null.
+
+@Email → Para correos electrónicos válidos.
+
+@Size(min, max) → Para limitar largo de texto.
+
+@Positive / @PositiveOrZero → Para números mayores que 0 o 0.
+
+@Min / @Max → Valores mínimos o máximos.
+
+@Valid (en controllers)
+Activa las validaciones cuando llega un JSON.
+
+orphanRemoval = true
+Si eliminas la referencia a un hijo en la lista del padre →
+El hijo también se borra de la BD automáticamente.
+
+Se usa principalmente en relaciones uno a muchos.
+
+
+
+// metodos personalizados
+venta = 3
+usuario = 2
+talla = 2
+producosventa = 2
+producto = 5
+marca = 3
+color = 2
+categoria = 2
+auditoria venta = 2
+auditoria prodcuto = 3

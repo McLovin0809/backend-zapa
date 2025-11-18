@@ -72,6 +72,7 @@ public class ProductoService {
         productoRepository.deleteById(id);
     }
 
+    // personalizados
     public List<Producto> buscarPorMarca(String nombreMarca) {
         return productoRepository.findByMarca_Nombre(nombreMarca);
     }
@@ -87,5 +88,9 @@ public class ProductoService {
     public List<Producto> buscarPorGenero(String genero) {
         return productoRepository.findByGenero_Nombre(genero);
     }
+
+    public List<Producto> buscarConDescuento(Double descuento) {
+    return productoRepository.findByDescuentoActivo(descuento);
+}
 
 }

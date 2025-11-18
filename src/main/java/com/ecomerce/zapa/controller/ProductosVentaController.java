@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecomerce.zapa.model.ProductosVenta;
 import com.ecomerce.zapa.service.ProductosVentaService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/productos-venta")
 public class ProductosVentaController {
@@ -23,6 +25,7 @@ public class ProductosVentaController {
     private ProductosVentaService productosVentaService;
 
     @GetMapping
+    @Operation(summary = "obtener todos los productos ventas", description = "DEVUELVE la lista de productos ventas registradas.")
     public ResponseEntity<List<ProductosVenta>> listarProductosVenta() {
         List<ProductosVenta> lista = productosVentaService.listarProductosVenta();
         if (lista.isEmpty()) {
@@ -32,6 +35,7 @@ public class ProductosVentaController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "buscar producto venta por id", description = "devuelve un producto venta segn su id")
     public ResponseEntity<ProductosVenta> obtenerPorId(@PathVariable Integer id) {
         ProductosVenta detalle = productosVentaService.obtenerPorId(id);
         if (detalle == null) {
@@ -41,12 +45,14 @@ public class ProductosVentaController {
     }
 
     @PostMapping
+    @Operation(summary = "agregar un producto venta", description = "crea un producto venta nuevo")
     public ResponseEntity<ProductosVenta> registrarProductosVenta(@RequestBody ProductosVenta productosVenta) {
         ProductosVenta nuevo = productosVentaService.registarProductosVenta(productosVenta);
         return ResponseEntity.status(201).body(nuevo);
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "actualizar producto venta", description = "modifica un producto venta existente x su id")
     public ResponseEntity<ProductosVenta> actualizarProductosVenta(
             @PathVariable Integer id,
             @RequestBody ProductosVenta productosVenta) {
@@ -60,9 +66,29 @@ public class ProductosVentaController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "eliminar producto venta", description = "elimina un producto venta x su id")
     public ResponseEntity<Void> eliminarProductosVenta(@PathVariable Integer id) {
         productosVentaService.eliminarProductosVenta(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // personalizados
+    @GetMapping("/venta/{idVenta}")
+    @Operation(summary = "buscar productos por venta", description = "devuelve todos los productos asociados a una venta específica.")
+    public ResponseEntity<List<ProductosVenta>> buscarPorVenta(@PathVariable Integer idVenta) {
+        List<ProductosVenta> lista = productosVentaService.buscarPorVenta(idVenta);
+        if (lista.isEmpty())
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(lista);
+    }
+
+    @GetMapping("/producto/{idProducto}")
+    @Operation(summary = "buscar detalles por producto", description = "devuelve cuantas veces y en que ventas aparece un producto especifico.")
+    public ResponseEntity<List<ProductosVenta>> buscarPorProducto(@PathVariable Integer idProducto) {
+        List<ProductosVenta> lista = productosVentaService.buscarPorProducto(idProducto);
+        if (lista.isEmpty())
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(lista);
     }
 
 }

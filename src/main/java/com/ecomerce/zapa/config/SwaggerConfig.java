@@ -14,7 +14,7 @@ public class SwaggerConfig {
             new Info()
             .title("API demo")
             .version("0.1")
-            .description("Api de repaso")
+            .description("Api de PROS")
         );
     }
 

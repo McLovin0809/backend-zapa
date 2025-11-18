@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecomerce.zapa.model.Ecofriendly;
 import com.ecomerce.zapa.service.EcofriendlyService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/ecofriendly")
 public class EcofriendlyController {
@@ -23,6 +25,7 @@ public class EcofriendlyController {
     private EcofriendlyService ecofriendlyService;
 
     @GetMapping
+    @Operation(summary = "obtener todas las ecoFriendly", description = "DEVUELVE la lista de ecoFriendly registradas.")
     public ResponseEntity<List<Ecofriendly>> listarEcofriendly() {
         List<Ecofriendly> lista = ecofriendlyService.listarEcofriendly();
         if (lista.isEmpty()) {
@@ -32,6 +35,7 @@ public class EcofriendlyController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "buscar ecofriendly por id", description = "devuelve un ecofriendly segn su id")
     public ResponseEntity<Ecofriendly> obtenerPorId(@PathVariable Integer id) {
         Ecofriendly eco = ecofriendlyService.obtenerPorId(id);
         if (eco == null) {
@@ -41,12 +45,14 @@ public class EcofriendlyController {
     }
 
     @PostMapping
+    @Operation(summary = "agregar una ecofrinedly", description = "crea una ecofriendly nueva")
     public ResponseEntity<Ecofriendly> registrarEcofriendly(@RequestBody Ecofriendly ecofriendly) {
         Ecofriendly nuevo = ecofriendlyService.registarEcofriendly(ecofriendly);
         return ResponseEntity.status(201).body(nuevo);
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "actualizar ecofriendly", description = "modifica una ecofriendly existente x su id")
     public ResponseEntity<Ecofriendly> actualizarEcofriendly(@PathVariable Integer id,
             @RequestBody Ecofriendly ecofriendly) {
         ecofriendly.setId_ecofriendly(id);
@@ -58,6 +64,7 @@ public class EcofriendlyController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "eliminar ecofriendly", description = "elimina una ecofriendly x su id")
     public ResponseEntity<Void> eliminarEcofriendly(@PathVariable Integer id) {
         ecofriendlyService.eliminarEcofriendly(id);
         return ResponseEntity.noContent().build();

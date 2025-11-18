@@ -23,13 +23,7 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer>{
     List<Producto> findByPrecioBetween(Double min, Double max);
 
     // buscar productos con descuento activo
-    List<Producto> findByDescuentoGreaterThan(Double descuentoMinimo);
-
-    // buscar x nombre aproximado
-    List<Producto> findByNombreContainingIgnoreCase(String nombre);
-
-    // buscar x marca y categoría al mismo tiempo
-    List<Producto> findByMarca_NombreAndCategorias_Categoria_Nombre(String marca, String categoria);
+    List<Producto> findByDescuentoActivo(Double descuento);
 
 
 } 

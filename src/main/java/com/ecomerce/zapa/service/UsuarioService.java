@@ -51,16 +51,13 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
+    // personalizados
     public Usuario buscarPorEmail(String email) {
         return usuarioRepository.findByEmail(email);
     }
 
-    public boolean validarCredenciales(String email, String passwordPlano) {
-        Usuario usuario = usuarioRepository.findByEmail(email);
-        if (usuario != null) {
-            return passwordEncoder.matches(passwordPlano, usuario.getClave());
-        }
-        return false;
+    public List<Usuario> buscarPorRol(String nombreRol) {
+        return usuarioRepository.findByRol_Nombre(nombreRol);
     }
 
 }

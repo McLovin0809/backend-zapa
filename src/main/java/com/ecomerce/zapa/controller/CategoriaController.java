@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecomerce.zapa.model.Categoria;
 import com.ecomerce.zapa.service.CategoriaService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/categorias")
 public class CategoriaController {
@@ -24,6 +26,7 @@ public class CategoriaController {
     private CategoriaService categoriaService;
 
     @GetMapping
+    @Operation(summary = "obtener todas las categorias", description = "DEVUELVE la lista de categorias registradas.")
     public ResponseEntity<List<Categoria>> listarTodas() {
         List<Categoria> categorias = categoriaService.listarCategorias();
         if (categorias.isEmpty()) {
@@ -33,6 +36,7 @@ public class CategoriaController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "buscar categoria por id", description = "devuelve una categoria segn su id")
     public ResponseEntity<Categoria> obtenerPorId(@PathVariable Integer id) {
         Categoria categoria = categoriaService.obtenerPorId(id);
         if (categoria == null) {
@@ -42,12 +46,14 @@ public class CategoriaController {
     }
 
     @PostMapping
+    @Operation(summary = "agregar una categoria", description = "crea una categoria nueva")
     public ResponseEntity<Categoria> registrarCategoria(@RequestBody Categoria categoria) {
         Categoria nueva = categoriaService.registarCategoria(categoria);
         return ResponseEntity.status(201).body(nueva);
     }
 
-     @PutMapping("/{id}")
+    @PutMapping("/{id}")
+    @Operation(summary = "actualizar categoria", description = "modifica una categoria existente x su id")
     public ResponseEntity<Categoria> actualizarCategoria(@PathVariable Integer id, @RequestBody Categoria categoria) {
         categoria.setId_categoria(id);
         Categoria actualizada = categoriaService.actualizarCategoria(id, categoria);
@@ -58,6 +64,7 @@ public class CategoriaController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "eliminar categoria", description = "elimina una categoria x su id")
     public ResponseEntity<Void> eliminarCategoria(@PathVariable Integer id) {
         categoriaService.eliminarCategoria(id);
         return ResponseEntity.noContent().build();
@@ -65,6 +72,7 @@ public class CategoriaController {
 
     // personalizados
     @GetMapping("/buscar/{nombre}")
+    @Operation(summary = "buscar categoria por nombre", description = "devuelve una categoria cuyo nombre coincide exactamente con el valor buscado.")
     public ResponseEntity<Categoria> buscarPorNombre(@PathVariable String nombre) {
         Categoria categoria = categoriaService.buscarPorNombreExacto(nombre);
         if (categoria == null) {
@@ -74,9 +82,9 @@ public class CategoriaController {
     }
 
     @GetMapping("/existe/{nombre}")
+    @Operation(summary = "verificar existencia de categoria", description = "indica si existe una categoria registrada con el nombre especificado.")
     public ResponseEntity<Boolean> existeCategoria(@PathVariable String nombre) {
         boolean existe = categoriaService.existeCategoria(nombre);
         return ResponseEntity.ok(existe);
     }
 }
-

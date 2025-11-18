@@ -31,22 +31,15 @@ public class AuditoriaProductoService {
         return auditoriaProductoRepository.findByProducto_IdProducto(idProducto);
     }
 
-    public List<AuditoriaProducto> buscarPorAdministrador(String nombreAdmin) {
-        return auditoriaProductoRepository.findByUsuario_Nombre(nombreAdmin);
-    }
-
-    public List<AuditoriaProducto> buscarPorRangoDeFechas(LocalDateTime inicio, LocalDateTime fin) {
-        return auditoriaProductoRepository.findByFechaCambioBetween(inicio, fin);
-    }
-
     public AuditoriaProducto registrarAuditoriaProductos(AuditoriaProducto auditoria) {
         return auditoriaProductoRepository.save(auditoria);
     }
 
     // registrar una nueva versión cuando cambia el producto
-    public AuditoriaProducto registrarNuevaVersion(Integer idProducto, Usuario usuario, Double precioAnterior, Double precioNuevo, Double descuento) {
+    public AuditoriaProducto registrarNuevaVersion(Integer idProducto, Usuario usuario, Double precioAnterior,
+            Double precioNuevo, Double descuento) {
         Producto producto = productoRepository.findById(idProducto)
-            .orElseThrow(() -> new RuntimeException("producto no encontrado"));
+                .orElseThrow(() -> new RuntimeException("producto no encontrado"));
 
         AuditoriaProducto nuevaAuditoria = new AuditoriaProducto();
         nuevaAuditoria.setProducto(producto);
@@ -54,9 +47,18 @@ public class AuditoriaProductoService {
         nuevaAuditoria.setPrecioAnterior(precioAnterior);
         nuevaAuditoria.setPrecioNuevo(precioNuevo);
         nuevaAuditoria.setDescuento(descuento);
-        nuevaAuditoria.setUsuario(usuario); 
+        nuevaAuditoria.setUsuario(usuario);
 
         return auditoriaProductoRepository.save(nuevaAuditoria);
+    }
+
+    // personalizados
+    public List<AuditoriaProducto> buscarPorAdministrador(String nombreAdmin) {
+        return auditoriaProductoRepository.findByUsuario_Nombre(nombreAdmin);
+    }
+
+    public List<AuditoriaProducto> buscarPorRangoDeFechas(LocalDateTime inicio, LocalDateTime fin) {
+        return auditoriaProductoRepository.findByFechaCambioBetween(inicio, fin);
     }
 
 }

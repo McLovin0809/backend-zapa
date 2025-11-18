@@ -50,4 +50,13 @@ public class ProductosVentaService {
         productosVentaRepository.deleteById(id);
     }
 
+    // personalizados
+    public List<ProductosVenta> buscarPorVenta(Integer idVenta) {
+        return productosVentaRepository.findByVenta_IdVenta(idVenta);
+    }
+
+    public List<ProductosVenta> buscarPorProducto(Integer idProducto) {
+        return productosVentaRepository.findByProducto_IdProducto(idProducto);
+    }
+
 }

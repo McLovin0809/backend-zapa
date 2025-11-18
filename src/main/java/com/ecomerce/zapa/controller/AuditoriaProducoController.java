@@ -18,6 +18,8 @@ import com.ecomerce.zapa.model.AuditoriaProducto;
 import com.ecomerce.zapa.model.Usuario;
 import com.ecomerce.zapa.service.AuditoriaProductoService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/facciones")
 public class AuditoriaProducoController {
@@ -26,6 +28,7 @@ public class AuditoriaProducoController {
     private AuditoriaProductoService auditoriaProductoService;
 
     @GetMapping
+    @Operation(summary = "obtener todas las auditorias productos", description = "DEVUELVE la lista de auditorias de productos registradas.")
     public ResponseEntity<List<AuditoriaProducto>> listarAuditoriasProductos() {
         List<AuditoriaProducto> auditorias = auditoriaProductoService.listarAuditoriasproductos();
         if (auditorias.isEmpty()) {
@@ -35,6 +38,7 @@ public class AuditoriaProducoController {
     }
 
     @GetMapping("/producto/{idProducto}")
+    @Operation(summary = "buscar auditoria producto por id", description = "devuelve una auditoria producto segn su id")
     public ResponseEntity<List<AuditoriaProducto>> buscarPorProducto(@PathVariable Integer idProducto) {
         List<AuditoriaProducto> auditorias = auditoriaProductoService.buscarPorProducto(idProducto);
         if (auditorias.isEmpty()) {
@@ -44,6 +48,7 @@ public class AuditoriaProducoController {
     }
 
     @PostMapping
+    @Operation(summary = "agregar una auditoria producto", description = "crea una auditoria producto nueva")
     public ResponseEntity<AuditoriaProducto> registrarAuditoriaManual(@RequestBody AuditoriaProducto auditoria) {
         AuditoriaProducto nueva = auditoriaProductoService.registrarAuditoriaProductos(auditoria);
         return ResponseEntity.status(201).body(nueva);
@@ -51,6 +56,7 @@ public class AuditoriaProducoController {
 
     // add atomaticamente una nueva versión cuando se actualiza un producto
     @PostMapping("/registrar/{idProducto}")
+    @Operation(summary = "registrar nueva version de auditoria", description = "crea automaticamente una nueva auditoria cuando un producto es actualizado, guardando el precio anterior, el nuevo y el descuento aplicado.")
     public ResponseEntity<AuditoriaProducto> registrarNuevaVersion(
             @PathVariable Integer idProducto,
             @RequestParam Integer idUsuario,
@@ -58,7 +64,7 @@ public class AuditoriaProducoController {
             @RequestParam Double precioNuevo,
             @RequestParam(required = false, defaultValue = "0") Double descuento) {
 
-        // asignamos 
+        // asignamos
         Usuario usuario = new Usuario();
         usuario.setIdUsuario(idUsuario);
 
@@ -70,6 +76,7 @@ public class AuditoriaProducoController {
 
     // personalizados
     @GetMapping("/admin/{nombreAdmin}")
+    @Operation(summary = "historial por administrador", description = "muestra todas las auditorías realizadas por un administrador.")
     public ResponseEntity<List<AuditoriaProducto>> buscarPorAdministrador(@PathVariable String nombreAdmin) {
         List<AuditoriaProducto> auditorias = auditoriaProductoService.buscarPorAdministrador(nombreAdmin);
         if (auditorias.isEmpty()) {
@@ -79,6 +86,7 @@ public class AuditoriaProducoController {
     }
 
     @GetMapping("/fechas")
+    @Operation(summary = "filtrar por rango de fechas", description = "devuelve auditorías entre dos fechas especificadas.")
     public ResponseEntity<List<AuditoriaProducto>> buscarPorFechas(
             @RequestParam("inicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
             @RequestParam("fin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fin) {
