@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -61,6 +62,21 @@ public class CategoriaController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(actualizada);
+    }
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "actualizar parcialmente una categoria", description = "modifica solo los campos enviados sin afectar los demás datos existentes.")
+    public ResponseEntity<Categoria> actualizarParcial(
+            @PathVariable Integer id,
+            @RequestBody Categoria categoria) {
+
+        Categoria actualizado = categoriaService.actualizarParcial(id, categoria);
+
+        if (actualizado == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(actualizado);
     }
 
     @DeleteMapping("/{id}")

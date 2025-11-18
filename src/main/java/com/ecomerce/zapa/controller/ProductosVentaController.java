@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -62,6 +63,17 @@ public class ProductosVentaController {
         if (actualizado == null) {
             return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok(actualizado);
+    }
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "actualización parcial de detalle de venta", description = "modifica solo los campos enviados sin reemplazar todo el objeto.")
+    public ResponseEntity<ProductosVenta> actualizarParcial(
+            @PathVariable Integer id, @RequestBody ProductosVenta cambios) {
+
+        ProductosVenta actualizado = productosVentaService.actualizarParcial(id, cambios);
+        if (actualizado == null)
+            return ResponseEntity.notFound().build();
         return ResponseEntity.ok(actualizado);
     }
 

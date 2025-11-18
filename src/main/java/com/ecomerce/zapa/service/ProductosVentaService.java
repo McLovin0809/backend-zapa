@@ -29,7 +29,7 @@ public class ProductosVentaService {
     }
 
     public ProductosVenta actualizarProductosVenta(Integer id, ProductosVenta productosVenta) {
-        //  detalle existente
+        // detalle existente
         ProductosVenta existingDetalle = productosVentaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("detalle de productos de venta no encontrado"));
 
@@ -44,6 +44,28 @@ public class ProductosVentaService {
             existingDetalle.setSubtotal(productosVenta.getSubtotal());
 
         return productosVentaRepository.save(existingDetalle);
+    }
+
+    public ProductosVenta actualizarParcial(Integer id, ProductosVenta cambios) {
+        ProductosVenta existente = productosVentaRepository.findById(id)
+                .orElse(null);
+
+        if (existente == null)
+            return null;
+
+        if (cambios.getVenta() != null)
+            existente.setVenta(cambios.getVenta());
+
+        if (cambios.getProducto() != null)
+            existente.setProducto(cambios.getProducto());
+
+        if (cambios.getCantidad() != null)
+            existente.setCantidad(cambios.getCantidad());
+
+        if (cambios.getSubtotal() != null)
+            existente.setSubtotal(cambios.getSubtotal());
+
+        return productosVentaRepository.save(existente);
     }
 
     public void eliminarProductosVenta(Integer id) {

@@ -56,6 +56,16 @@ public class TallaController {
         return ResponseEntity.ok(actualizada);
     }
 
+    @PatchMapping("/{id}")
+    @Operation(summary = "actualizar parcialmente una talla", description = "modifica solo el número de la talla sin afectar otros datos.")
+    public ResponseEntity<Talla> actualizarParcial(
+            @PathVariable Integer id,
+            @RequestBody Talla datos) {
+
+        Talla actualizada = tallaService.actualizarParcial(id, datos);
+        return ResponseEntity.ok(actualizada);
+    }
+
     @DeleteMapping("/{id}")
     @Operation(summary = "eliminar talla", description = "elimina una talla x su id")
     public ResponseEntity<Void> eliminarTalla(@PathVariable Integer id) {

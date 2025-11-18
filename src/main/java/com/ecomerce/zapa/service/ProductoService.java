@@ -45,7 +45,7 @@ public class ProductoService {
         if (producto.getImgPrincipal() != null)
             existingProducto.setImgPrincipal(producto.getImgPrincipal());
 
-        // relacns con otras tablas 
+        // relacns con otras tablas
         if (producto.getMarca() != null)
             existingProducto.setMarca(producto.getMarca());
         if (producto.getGenero() != null)
@@ -66,6 +66,45 @@ public class ProductoService {
             existingProducto.setColores(producto.getColores());
 
         return productoRepository.save(existingProducto);
+    }
+
+    public Producto actualizarParcial(Integer id, Producto cambios) {
+        Producto existente = productoRepository.findById(id).orElse(null);
+        if (existente == null)
+            return null;
+
+        if (cambios.getNombre() != null)
+            existente.setNombre(cambios.getNombre());
+        if (cambios.getDescripcion() != null)
+            existente.setDescripcion(cambios.getDescripcion());
+        if (cambios.getPrecio() != null)
+            existente.setPrecio(cambios.getPrecio());
+        if (cambios.getStock() != null)
+            existente.setStock(cambios.getStock());
+        if (cambios.getDescuento() != null)
+            existente.setDescuento(cambios.getDescuento());
+        if (cambios.getImgPrincipal() != null)
+            existente.setImgPrincipal(cambios.getImgPrincipal());
+
+        if (cambios.getMarca() != null)
+            existente.setMarca(cambios.getMarca());
+        if (cambios.getGenero() != null)
+            existente.setGenero(cambios.getGenero());
+        if (cambios.getMaterial() != null)
+            existente.setMaterial(cambios.getMaterial());
+        if (cambios.getEcofriendly() != null)
+            existente.setEcofriendly(cambios.getEcofriendly());
+
+        if (cambios.getCategorias() != null)
+            existente.setCategorias(cambios.getCategorias());
+        if (cambios.getImagenes() != null)
+            existente.setImagenes(cambios.getImagenes());
+        if (cambios.getTallas() != null)
+            existente.setTallas(cambios.getTallas());
+        if (cambios.getColores() != null)
+            existente.setColores(cambios.getColores());
+
+        return productoRepository.save(existente);
     }
 
     public void eliminarProducto(Integer id) {
@@ -90,7 +129,7 @@ public class ProductoService {
     }
 
     public List<Producto> buscarConDescuento(Double descuento) {
-    return productoRepository.findByDescuentoActivo(descuento);
-}
+        return productoRepository.findByDescuentoActivo(descuento);
+    }
 
 }

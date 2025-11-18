@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -56,6 +57,19 @@ public class ColorController {
     public ResponseEntity<Color> actualizarColor(@PathVariable Integer id, @RequestBody Color color) {
         color.setIdColor(id);
         Color actualizado = colorService.actualizarColor(id, color);
+        if (actualizado == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(actualizado);
+    }
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "actualizar parcialmente un color", description = "modifica solo los campos enviados en el cuerpo sin afectar el resto.")
+    public ResponseEntity<Color> actualizarParcial(
+            @PathVariable Integer id,
+            @RequestBody Color color) {
+
+        Color actualizado = colorService.actualizarParcial(id, color);
         if (actualizado == null) {
             return ResponseEntity.notFound().build();
         }

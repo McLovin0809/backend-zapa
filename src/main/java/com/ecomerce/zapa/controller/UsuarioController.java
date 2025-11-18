@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -61,6 +62,16 @@ public class UsuarioController {
         return ResponseEntity.ok(actualizado);
     }
 
+    @PatchMapping("/{id}")
+    @Operation(summary = "actualizar parcialmente un usuario", description = "modifica solo los campos enviados sin afectar el resto del usuario.")
+    public ResponseEntity<Usuario> actualizarParcial(
+            @PathVariable Integer id,
+            @RequestBody Usuario datos) {
+
+        Usuario actualizado = usuarioService.actualizarParcial(id, datos);
+        return ResponseEntity.ok(actualizado);
+    }
+
     @DeleteMapping("/{id}")
     @Operation(summary = "eliminar usuario", description = "elimina un usuario x su id")
     public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
@@ -83,7 +94,8 @@ public class UsuarioController {
     @Operation(summary = "buscar usuarios por rol", description = "devuelve los usuarios que pertenezcan al rol indicado.")
     public ResponseEntity<List<Usuario>> buscarPorRol(@PathVariable String rol) {
         List<Usuario> lista = usuarioService.buscarPorRol(rol);
-        if (lista.isEmpty()) return ResponseEntity.noContent().build();
+        if (lista.isEmpty())
+            return ResponseEntity.noContent().build();
         return ResponseEntity.ok(lista);
     }
 }

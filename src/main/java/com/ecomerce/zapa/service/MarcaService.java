@@ -38,6 +38,17 @@ public class MarcaService {
         return marcaRepository.save(existingMarca);
     }
 
+    public Marca actualizarParcial(Integer id, Marca cambios) {
+        Marca existente = marcaRepository.findById(id).orElse(null);
+        if (existente == null)
+            return null;
+
+        if (cambios.getNombre() != null)
+            existente.setNombre(cambios.getNombre());
+
+        return marcaRepository.save(existente);
+    }
+
     public void eliminarMarca(Integer id) {
         marcaRepository.deleteById(id);
     }

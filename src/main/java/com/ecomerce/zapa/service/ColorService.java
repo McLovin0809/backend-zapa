@@ -39,6 +39,17 @@ public class ColorService {
         return colorRepository.save(existingColor);
     }
 
+    public Color actualizarParcial(Integer id, Color datos) {
+        Color existente = colorRepository.findById(id).orElse(null);
+        if (existente == null)
+            return null;
+
+        if (datos.getNombre() != null)
+            existente.setNombre(datos.getNombre());
+
+        return colorRepository.save(existente);
+    }
+
     public void eliminarColor(Integer id) {
         colorRepository.deleteById(id);
     }

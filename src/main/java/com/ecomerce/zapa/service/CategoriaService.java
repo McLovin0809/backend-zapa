@@ -39,6 +39,17 @@ public class CategoriaService {
         return categoriaRepository.save(existingCategoria);
     }
 
+    public Categoria actualizarParcial(Integer id, Categoria datos) {
+        Categoria existente = categoriaRepository.findById(id).orElse(null);
+        if (existente == null)
+            return null;
+
+        if (datos.getNombre() != null)
+            existente.setNombre(datos.getNombre());
+
+        return categoriaRepository.save(existente);
+    }
+
     public void eliminarCategoria(Integer id) {
         categoriaRepository.deleteById(id);
     }

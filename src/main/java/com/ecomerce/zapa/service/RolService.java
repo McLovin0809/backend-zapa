@@ -12,13 +12,13 @@ import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-//@SuppressWarnings("null")
+// @SuppressWarnings("null")
 public class RolService {
-    
+
     @Autowired
     private RolRepository rolRepository;
 
-    public List<Rol> listarTodos(){
+    public List<Rol> listarTodos() {
         return rolRepository.findAll();
     }
 
@@ -26,10 +26,9 @@ public class RolService {
         return rolRepository.findById(id).orElse(null);
     }
 
-    
     public Rol registrar(Rol rol) {
         return rolRepository.save(rol);
-    } 
+    }
 
     public Rol actualizar(Integer id, Rol rolNuevo) {
         Rol existente = rolRepository.findById(id).orElse(null);
@@ -38,6 +37,17 @@ public class RolService {
         }
 
         existente.setNombre(rolNuevo.getNombre());
+        return rolRepository.save(existente);
+    }
+
+    public Rol actualizarParcial(Integer id, Rol cambios) {
+        Rol existente = rolRepository.findById(id).orElse(null);
+        if (existente == null)
+            return null;
+
+        if (cambios.getNombre() != null)
+            existente.setNombre(cambios.getNombre());
+
         return rolRepository.save(existente);
     }
 

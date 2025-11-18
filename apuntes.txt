@@ -34,7 +34,7 @@ El hijo también se borra de la BD automáticamente.
 
 Se usa principalmente en relaciones uno a muchos.
 
-
+@JsonIgnore = para que no genere recursión infinita en JSON:
 
 // metodos personalizados
 venta = 3

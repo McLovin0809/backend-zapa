@@ -2,7 +2,6 @@ package com.ecomerce.zapa.service;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +36,17 @@ public class EcofriendlyService {
         existingEco.setEsEcofriendly(ecofriendly.isEsEcofriendly());
 
         return ecofriendlyRepository.save(existingEco);
+    }
+
+    public Ecofriendly actualizarParcial(Integer id, Ecofriendly ecoFriendly) {
+        Ecofriendly existente = ecofriendlyRepository.findById(id).orElse(null);
+        if (existente == null)
+            return null;
+
+        // solo cambia si viene en el body
+        existente.setEsEcofriendly(ecoFriendly.isEsEcofriendly());
+
+        return ecofriendlyRepository.save(existente);
     }
 
     public void eliminarEcofriendly(Integer id) {

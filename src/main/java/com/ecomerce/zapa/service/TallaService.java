@@ -40,6 +40,17 @@ public class TallaService {
         return tallaRepository.save(existingTalla);
     }
 
+    public Talla actualizarParcial(Integer id, Talla datos) {
+        Talla existente = tallaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("talla no encontrada"));
+
+        if (datos.getNumero() != null && !datos.getNumero().isBlank()) {
+            existente.setNumero(datos.getNumero());
+        }
+
+        return tallaRepository.save(existente);
+    }
+
     public void eliminarTalla(Integer id) {
         tallaRepository.deleteById(id);
     }

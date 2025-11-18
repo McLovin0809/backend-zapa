@@ -52,28 +52,35 @@ public class VentaService {
         return ventaRepository.save(existingVenta);
     }
 
+    public Venta actualizarParcial(Integer id, Venta datos) {
+        Venta existente = ventaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("venta no encontrada"));
+
+        if (datos.getFechaVenta() != null)
+            existente.setFechaVenta(datos.getFechaVenta());
+
+        if (datos.getTotal() != null)
+            existente.setTotal(datos.getTotal());
+
+        if (datos.getUsuario() != null)
+            existente.setUsuario(datos.getUsuario());
+
+        if (datos.getEstado() != null)
+            existente.setEstado(datos.getEstado());
+
+        if (datos.getMetodoPago() != null)
+            existente.setMetodoPago(datos.getMetodoPago());
+
+        // productosVenta NO se actualiza aquí (se actualiza con su propio controller)
+
+        return ventaRepository.save(existente);
+    }
+
     public void eliminarVenta(Integer id) {
         ventaRepository.deleteById(id);
     }
-    
-    public Venta partialUpdate(Venta venta) {
-        Venta existente = ventaRepository.findById(venta.getIdVenta()).orElse(null);
-        if (existente != null) {
-            if (venta.getUsuario() != null) {
-                existente.setUsuario(venta.getUsuario());
-            }
-            if (venta.getEstado() != null) {
-                existente.setEstado(venta.getEstado());
-            }
-            if (venta.getTotal() != null) {
-                existente.setTotal(venta.getTotal());
-            }
-            return ventaRepository.save(existente);
-        }
-        return null;
-    }
 
-    // personalizados 
+    // personalizados
     public List<Venta> buscarPorUsuario(Integer idUsuario) {
         return ventaRepository.findByUsuario_IdUsuario(idUsuario);
     }

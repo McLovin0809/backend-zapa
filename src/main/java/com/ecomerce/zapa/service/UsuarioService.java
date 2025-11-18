@@ -34,17 +34,46 @@ public class UsuarioService {
 
     public Usuario actualizarUsuario(Integer id, Usuario usuario) {
         Usuario existingUsuario = usuarioRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("usuario no encontrado"));
-        
-        if(usuario.getNombre() != null) existingUsuario.setNombre(usuario.getNombre());
-        if(usuario.getEmail()!= null) existingUsuario.setEmail(usuario.getEmail());
-        if(usuario.getClave() != null) {
+                .orElseThrow(() -> new RuntimeException("usuario no encontrado"));
+
+        if (usuario.getNombre() != null)
+            existingUsuario.setNombre(usuario.getNombre());
+        if (usuario.getEmail() != null)
+            existingUsuario.setEmail(usuario.getEmail());
+        if (usuario.getClave() != null) {
             existingUsuario.setClave(passwordEncoder.encode(usuario.getClave()));
         }
-        if(usuario.getTelefono() != null) existingUsuario.setTelefono(usuario.getTelefono());
-        if (usuario.getRol() != null)existingUsuario.setRol(usuario.getRol());
+        if (usuario.getTelefono() != null)
+            existingUsuario.setTelefono(usuario.getTelefono());
+        if (usuario.getRol() != null)
+            existingUsuario.setRol(usuario.getRol());
 
         return usuarioRepository.save(existingUsuario);
+    }
+
+    public Usuario actualizarParcial(Integer id, Usuario datos) {
+        Usuario existente = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("usuario no encontrado"));
+
+        if (datos.getNombre() != null && !datos.getNombre().isBlank())
+            existente.setNombre(datos.getNombre());
+
+        if (datos.getEmail() != null && !datos.getEmail().isBlank())
+            existente.setEmail(datos.getEmail());
+
+        if (datos.getClave() != null && !datos.getClave().isBlank())
+            existente.setClave(passwordEncoder.encode(datos.getClave()));
+
+        if (datos.getTelefono() != null)
+            existente.setTelefono(datos.getTelefono());
+
+        if (datos.getRol() != null)
+            existente.setRol(datos.getRol());
+
+        if (datos.getDireccion() != null)
+            existente.setDireccion(datos.getDireccion());
+
+        return usuarioRepository.save(existente);
     }
 
     public void eliminarUsuario(Integer id) {
