@@ -106,7 +106,8 @@ public class ProductoService {
 
         return productoRepository.save(existente);
     }
-
+    
+    // cascada
     public void eliminarProducto(Integer id) {
         productoRepository.deleteById(id);
     }
