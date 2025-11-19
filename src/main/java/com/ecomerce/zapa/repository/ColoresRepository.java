@@ -8,5 +8,5 @@ import com.ecomerce.zapa.model.Colores;
 @Repository
 public interface ColoresRepository extends JpaRepository<Colores, Integer> {
 
-    
+    void deleteByProducto_IdProducto(Integer idProducto);
 } 

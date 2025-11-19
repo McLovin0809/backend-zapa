@@ -8,5 +8,5 @@ import com.ecomerce.zapa.model.MetodoPago;
 @Repository
 public interface MetodoPagoRepository extends JpaRepository<MetodoPago, Integer> {
 
-    
+    void deleteByIdMetodoPago(Integer idMetodoPago);
 } 

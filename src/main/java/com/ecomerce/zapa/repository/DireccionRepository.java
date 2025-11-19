@@ -8,5 +8,5 @@ import com.ecomerce.zapa.model.Direccion;
 @Repository
 public interface DireccionRepository extends JpaRepository<Direccion, Integer> {
 
-    
+    void deleteByComuna_IdComuna(Integer idComuna);
 }

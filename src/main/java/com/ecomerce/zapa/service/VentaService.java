@@ -17,6 +17,10 @@ public class VentaService {
     @Autowired
     private VentaRepository ventaRepository;
 
+    @Autowired
+    private ProductosVentaRepository productosVentaRepository;
+
+
     public List<Venta> listarVentas() {
         return ventaRepository.findAll();
     }
@@ -77,7 +81,12 @@ public class VentaService {
     }
 
     public void eliminarVenta(Integer id) {
-        ventaRepository.deleteById(id);
+        // 1. eliminar detalle venta
+        productosVentaRepository.deleteByVenta_IdVenta(idVenta);
+
+        // 2. eliminar venta
+        ventaRepository.deleteById(idVenta);
+    }
     }
 
     // personalizados

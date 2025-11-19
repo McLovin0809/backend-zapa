@@ -18,6 +18,13 @@ public class RolService {
     @Autowired
     private RolRepository rolRepository;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private UsuarioService usuarioService;
+
+
     public List<Rol> listarTodos() {
         return rolRepository.findAll();
     }
@@ -52,6 +59,13 @@ public class RolService {
     }
 
     public void eliminar(Integer id) {
-        rolRepository.deleteById(id);
+        List<Usuario> usuarios = usuarioRepository.findByRol_IdRol(idRol);
+
+        for (Usuario u : usuarios) {
+            usuarioService.eliminarUsuario(u.getIdUsuario());
+        }
+
+        rolRepository.deleteById(idRol);
+    }
     }
 }

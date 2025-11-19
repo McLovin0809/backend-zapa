@@ -13,5 +13,7 @@ public interface TallaRepository extends JpaRepository<Talla, Integer> {
     // Verificar si ya existe una talla
     boolean existsByNumero(String numero);
 
+    void deleteByProducto_IdProducto(Integer idProducto);
+
     
 } 

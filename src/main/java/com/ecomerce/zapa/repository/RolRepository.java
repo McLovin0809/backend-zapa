@@ -8,5 +8,5 @@ import com.ecomerce.zapa.model.Rol;
 @Repository
 public interface RolRepository extends JpaRepository<Rol, Integer> {
 
-    
+    void deleteByIdRol(Integer idRol);
 } 

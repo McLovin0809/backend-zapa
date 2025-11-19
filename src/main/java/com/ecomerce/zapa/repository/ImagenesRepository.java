@@ -8,5 +8,5 @@ import com.ecomerce.zapa.model.Imagenes;
 @Repository
 public interface ImagenesRepository extends JpaRepository<Imagenes, Integer>{
 
-    
+    void deleteByProducto_IdProducto(Integer idProducto);
 } 

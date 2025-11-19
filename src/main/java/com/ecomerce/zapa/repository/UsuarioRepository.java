@@ -13,5 +13,7 @@ public interface UsuarioRepository  extends JpaRepository<Usuario, Integer>{
 
     List<Usuario> findByRol_Nombre(String rol); // listar clientes o admins
 
-    
+    void deleteByRol_IdRol(Integer idRol);
+
+    void deleteByDireccion_IdDireccion(Integer idDireccion);
 } 

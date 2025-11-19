@@ -15,6 +15,21 @@ public class ProductoService {
     @Autowired
     private ProductoRepository productoRepository;
 
+     @Autowired
+    private TallasRepository tallasRepository;
+
+    @Autowired
+    private ColoresRepository coloresRepository;
+
+    @Autowired
+    private CategoriasRepository categoriasRepository;
+
+    @Autowired
+    private ImagenesRepository imagenesRepository;
+
+    @Autowired
+    private ProductosVentaRepository productosVentaRepository;
+
     public List<Producto> listarProductos() {
         return productoRepository.findAll();
     }
@@ -109,7 +124,24 @@ public class ProductoService {
     
     // cascada
     public void eliminarProducto(Integer id) {
-        productoRepository.deleteById(id);
+        // 1. eliminar tallas
+        tallasRepository.deleteByProducto_IdProducto(idProducto);
+
+        // 2. eliminar colores
+        coloresRepository.deleteByProducto_IdProducto(idProducto);
+
+        // 3. eliminar categorías
+        categoriasRepository.deleteByProducto_IdProducto(idProducto);
+
+        // 4. eliminar imágenes
+        imagenesRepository.deleteByProducto_IdProducto(idProducto);
+
+        // 5. eliminar productos en ventas
+        productosVentaRepository.deleteByProducto_IdProducto(idProducto);
+
+        // 6. eliminar el producto
+        productoRepository.deleteById(idProducto);
+    }
     }
 
     // personalizados

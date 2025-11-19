@@ -17,6 +17,12 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
+    private VentaRepository ventaRepository;
+
+    @Autowired
+    private ProductosVentaRepository productosVentaRepository;
+
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     public List<Usuario> listarUsuarios() {
@@ -78,7 +84,17 @@ public class UsuarioService {
     // cascade
 
     public void eliminarUsuario(Integer id) {
-        usuarioRepository.deleteById(id);
+        // 1. ventas del usuario
+        List<Venta> ventas = ventaRepository.findByUsuario_IdUsuario(idUsuario);
+
+        for (Venta v : ventas) {
+            productosVentaRepository.deleteByVenta_IdVenta(v.getIdVenta());
+        }
+
+        ventaRepository.deleteByUsuario_IdUsuario(idUsuario);
+
+        // 2. eliminar usuario
+        usuarioRepository.deleteById(idUsuario);
     }
 
     // personalizados

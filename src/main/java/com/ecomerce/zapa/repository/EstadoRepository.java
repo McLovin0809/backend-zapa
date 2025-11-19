@@ -8,5 +8,5 @@ import com.ecomerce.zapa.model.Estado;
 @Repository
 public interface EstadoRepository extends JpaRepository<Estado, Integer> {
 
-    
+    void deleteByIdEstado(Integer idEstado);
 } 

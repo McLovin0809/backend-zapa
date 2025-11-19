@@ -8,5 +8,5 @@ import com.ecomerce.zapa.model.Comuna;
 @Repository
 public interface ComunaRepository extends JpaRepository<Comuna, Integer> {
 
-    
+    void deleteByRegion_IdRegion(Integer idRegion);
 } 

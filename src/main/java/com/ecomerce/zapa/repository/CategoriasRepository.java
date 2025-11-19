@@ -8,5 +8,5 @@ import com.ecomerce.zapa.model.Categorias;
 @Repository
 public interface CategoriasRepository extends JpaRepository<Categorias, Integer> {
 
-    
+    void deleteByProducto_IdProducto(Integer idProducto);
 } 
