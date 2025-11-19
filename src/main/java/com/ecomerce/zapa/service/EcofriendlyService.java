@@ -31,7 +31,7 @@ public class EcofriendlyService {
     public Ecofriendly actualizarEcofriendly(Integer id, Ecofriendly ecofriendly) {
         // registro existente
         Ecofriendly existingEco = ecofriendlyRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("ecofriendly no encontrado"));
+                        .orElseThrow(() -> new RuntimeException("ecofriendly no encontrado"));
 
         existingEco.setEsEcofriendly(ecofriendly.isEsEcofriendly());
 
