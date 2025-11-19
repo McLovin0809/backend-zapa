@@ -19,9 +19,13 @@ public interface VentaRepository extends JpaRepository<Venta, Integer> {
     // buscar ventas entre fechas
     List<Venta> findByFechaVentaBetween(LocalDateTime desde, LocalDateTime hasta);
 
+    List<Venta> findByEstado_IdEstado(Integer idEstado);
+
+    List<Venta> findByMetodoPago_IdMetodoPago(Integer idMetodoPago);
+
     void deleteByUsuario_IdUsuario(Integer idUsuario);
 
     void deleteByEstado_IdEstado(Integer idEstado);
 
-    void deleteByMetodoPago_IdMetodoPago(Integer idMetodoPago)
+    void deleteByMetodoPago_IdMetodoPago(Integer idMetodoPago);
 } 

@@ -8,5 +8,5 @@ import com.ecomerce.zapa.model.Tallas;
 @Repository
 public interface TallasRepository extends JpaRepository<Tallas, Integer> {
 
-    
+    void deleteByProducto_IdProducto(Integer idProducto);
 } 

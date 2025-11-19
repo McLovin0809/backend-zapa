@@ -1,5 +1,10 @@
 package com.ecomerce.zapa.service;
 
+import com.ecomerce.zapa.repository.ComunaRepository;
+import com.ecomerce.zapa.repository.DireccionRepository;
+import com.ecomerce.zapa.repository.UsuarioRepository;
+import com.ecomerce.zapa.repository.VentaRepository;
+
 @Service
 public class ComunaService {
 

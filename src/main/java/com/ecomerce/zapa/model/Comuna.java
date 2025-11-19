@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class Comuna {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_comuna;
+    private Integer idComuna;
 
     @Column(nullable = false, length = 100)
     private String nombre;
