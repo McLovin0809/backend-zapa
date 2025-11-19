@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ecomerce.zapa.model.Rol;
+import com.ecomerce.zapa.model.Usuario;
 import com.ecomerce.zapa.repository.RolRepository;
+import com.ecomerce.zapa.repository.UsuarioRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -59,13 +61,13 @@ public class RolService {
     }
 
     public void eliminar(Integer id) {
-        List<Usuario> usuarios = usuarioRepository.findByRol_IdRol(idRol);
+        List<Usuario> usuarios = usuarioRepository.findByRol_IdRol(id);
 
         for (Usuario u : usuarios) {
             usuarioService.eliminarUsuario(u.getIdUsuario());
         }
 
-        rolRepository.deleteById(idRol);
+        rolRepository.deleteById(id);
     }
-    }
+    
 }

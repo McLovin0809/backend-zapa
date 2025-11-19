@@ -1,7 +1,16 @@
 package com.ecomerce.zapa.service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ecomerce.zapa.model.Direccion;
+import com.ecomerce.zapa.model.Usuario;
+import com.ecomerce.zapa.model.Venta;
 import com.ecomerce.zapa.repository.ComunaRepository;
 import com.ecomerce.zapa.repository.DireccionRepository;
+import com.ecomerce.zapa.repository.ProductosVentaRepository;
 import com.ecomerce.zapa.repository.UsuarioRepository;
 import com.ecomerce.zapa.repository.VentaRepository;
 

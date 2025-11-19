@@ -19,7 +19,7 @@ public class Estado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_estado;
+    private Integer idEstado;
 
     @Column(nullable = false, unique = true, length = 50)
     private String nombre;  // pendiente - pagado - en ruta

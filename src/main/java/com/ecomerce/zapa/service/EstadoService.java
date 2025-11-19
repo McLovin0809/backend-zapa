@@ -1,5 +1,15 @@
 package com.ecomerce.zapa.service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ecomerce.zapa.model.Venta;
+import com.ecomerce.zapa.repository.EstadoRepository;
+import com.ecomerce.zapa.repository.ProductosVentaRepository;
+import com.ecomerce.zapa.repository.VentaRepository;
+
 @Service
 public class EstadoService {
 

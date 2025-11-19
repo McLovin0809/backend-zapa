@@ -5,7 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ecomerce.zapa.model.Producto;
+import com.ecomerce.zapa.repository.CategoriasRepository;
+import com.ecomerce.zapa.repository.ColoresRepository;
+import com.ecomerce.zapa.repository.ImagenesRepository;
 import com.ecomerce.zapa.repository.ProductoRepository;
+import com.ecomerce.zapa.repository.ProductosVentaRepository;
+import com.ecomerce.zapa.repository.TallasRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -125,25 +130,24 @@ public class ProductoService {
     // cascada
     public void eliminarProducto(Integer id) {
         // 1. eliminar tallas
-        tallasRepository.deleteByProducto_IdProducto(idProducto);
+        tallasRepository.deleteByProducto_IdProducto(id);
 
         // 2. eliminar colores
-        coloresRepository.deleteByProducto_IdProducto(idProducto);
+        coloresRepository.deleteByProducto_IdProducto(id);
 
         // 3. eliminar categorías
-        categoriasRepository.deleteByProducto_IdProducto(idProducto);
+        categoriasRepository.deleteByProducto_IdProducto(id);
 
         // 4. eliminar imágenes
-        imagenesRepository.deleteByProducto_IdProducto(idProducto);
+        imagenesRepository.deleteByProducto_IdProducto(id);
 
         // 5. eliminar productos en ventas
-        productosVentaRepository.deleteByProducto_IdProducto(idProducto);
+        productosVentaRepository.deleteByProducto_IdProducto(id);
 
         // 6. eliminar el producto
-        productoRepository.deleteById(idProducto);
+        productoRepository.deleteById(id);
     }
-    }
-
+    
     // personalizados
     public List<Producto> buscarPorMarca(String nombreMarca) {
         return productoRepository.findByMarca_Nombre(nombreMarca);

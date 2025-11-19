@@ -1,6 +1,15 @@
 package com.ecomerce.zapa.service;
 
-@service
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ecomerce.zapa.model.Comuna;
+import com.ecomerce.zapa.repository.ComunaRepository;
+import com.ecomerce.zapa.repository.RegionRepository;
+
+@Service
 public class RegionService {
 
     @Autowired

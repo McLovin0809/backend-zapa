@@ -56,7 +56,7 @@ public class MarcaController {
     @PutMapping("/{id}")
     @Operation(summary = "actualizar marca", description = "modifica una marca existente x su id")
     public ResponseEntity<Marca> actualizarMarca(@PathVariable Integer id, @RequestBody Marca marca) {
-        marca.setId_marca(id);
+        marca.setIdMarca(id);
         Marca actualizada = marcaService.actualizarMarca(id, marca);
         if (actualizada == null) {
             return ResponseEntity.notFound().build();

@@ -48,7 +48,7 @@ public class TallaController {
     @PutMapping("/{id}")
     @Operation(summary = "actualizar talla", description = "modifica una talla existente x su id")
     public ResponseEntity<Talla> actualizarTalla(@PathVariable Integer id, @RequestBody Talla talla) {
-        talla.setId_talla(id);
+        talla.setIdTalla(id);
         Talla actualizada = tallaService.actualizarTalla(id, talla);
         if (actualizada == null) {
             return ResponseEntity.notFound().build();

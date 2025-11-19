@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Imagen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_imagen;
+    private Integer idImagen;
 
     @Column(nullable = false)
     private String url;

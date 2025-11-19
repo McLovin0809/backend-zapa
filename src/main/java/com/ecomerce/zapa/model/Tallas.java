@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class Tallas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_tallas;
+    private Integer idTallas;
 
     @ManyToOne
     @JoinColumn(name = "id_producto")

@@ -56,7 +56,7 @@ public class CategoriaController {
     @PutMapping("/{id}")
     @Operation(summary = "actualizar categoria", description = "modifica una categoria existente x su id")
     public ResponseEntity<Categoria> actualizarCategoria(@PathVariable Integer id, @RequestBody Categoria categoria) {
-        categoria.setId_categoria(id);
+        categoria.setIdCategoria(id);
         Categoria actualizada = categoriaService.actualizarCategoria(id, categoria);
         if (actualizada == null) {
             return ResponseEntity.notFound().build();

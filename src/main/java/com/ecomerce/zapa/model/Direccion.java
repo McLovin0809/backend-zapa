@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class Direccion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_direccion;
+    private Integer idDireccion;
 
     @Column(nullable = false, length = 100)
     private String calle;

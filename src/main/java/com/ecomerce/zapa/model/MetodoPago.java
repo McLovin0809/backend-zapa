@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class MetodoPago {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_metodoPago;
+    private Integer idMetodoPago;
 
     @Column(nullable = false, unique = true, length = 50)
     private String descripcion; // debito credito o efectivo

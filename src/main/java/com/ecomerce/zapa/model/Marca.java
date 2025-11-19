@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Marca {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_marca;
+    private Integer idMarca;
 
     @Column(nullable = false, unique = true)
     private String nombre; // nike, adidas, vans

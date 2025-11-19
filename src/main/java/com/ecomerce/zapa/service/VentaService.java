@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ecomerce.zapa.model.Venta;
+import com.ecomerce.zapa.repository.ProductosVentaRepository;
 import com.ecomerce.zapa.repository.VentaRepository;
 
 import jakarta.transaction.Transactional;
@@ -82,12 +83,12 @@ public class VentaService {
 
     public void eliminarVenta(Integer id) {
         // 1. eliminar detalle venta
-        productosVentaRepository.deleteByVenta_IdVenta(idVenta);
+        productosVentaRepository.deleteByVenta_IdVenta(id);
 
         // 2. eliminar venta
-        ventaRepository.deleteById(idVenta);
+        ventaRepository.deleteById(id);
     }
-    }
+    
 
     // personalizados
     public List<Venta> buscarPorUsuario(Integer idUsuario) {

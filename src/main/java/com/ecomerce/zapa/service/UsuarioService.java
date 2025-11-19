@@ -6,7 +6,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ecomerce.zapa.model.Usuario;
+import com.ecomerce.zapa.model.Venta;
+import com.ecomerce.zapa.repository.ProductosVentaRepository;
 import com.ecomerce.zapa.repository.UsuarioRepository;
+import com.ecomerce.zapa.repository.VentaRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -85,16 +88,16 @@ public class UsuarioService {
 
     public void eliminarUsuario(Integer id) {
         // 1. ventas del usuario
-        List<Venta> ventas = ventaRepository.findByUsuario_IdUsuario(idUsuario);
+        List<Venta> ventas = ventaRepository.findByUsuario_IdUsuario(id);
 
         for (Venta v : ventas) {
             productosVentaRepository.deleteByVenta_IdVenta(v.getIdVenta());
         }
 
-        ventaRepository.deleteByUsuario_IdUsuario(idUsuario);
+        ventaRepository.deleteByUsuario_IdUsuario(id);;
 
         // 2. eliminar usuario
-        usuarioRepository.deleteById(idUsuario);
+        usuarioRepository.deleteById(id);;
     }
 
     // personalizados
