@@ -2,7 +2,7 @@ package com.ecomerce.zapa.model;
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -59,16 +59,16 @@ public class Producto {
     @JoinColumn(name = "id_ecofriendly")
     private Ecofriendly ecofriendly;
 
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "producto")
     private List<Categorias> categorias;
 
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "producto")
     private List<Imagenes> imagenes;
 
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "producto")
     private List<Tallas> tallas;
 
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "producto")
     private List<Colores> colores;
 
 }

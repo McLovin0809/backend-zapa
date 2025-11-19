@@ -3,7 +3,6 @@ package com.ecomerce.zapa.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -41,7 +40,7 @@ public class Venta {
     @JoinColumn(name = "id_metodoPago")
     private MetodoPago metodoPago;
 
-    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "venta")
     private List<ProductosVenta> productosVenta;
 
 }

@@ -15,5 +15,7 @@ public interface ProductosVentaRepository extends JpaRepository<ProductosVenta, 
     // buscar x producto cnto sde vendio en cant
     List<ProductosVenta> findByProducto_IdProducto(Integer idProducto);
 
-    
-} 
+    // detecta auto esto: DELETE FROM productos_venta WHERE id_venta = ?
+    void deleteByVenta_IdVenta(Integer idVenta);
+    void deleteByProducto_IdProducto(Integer idProducto);
+}
