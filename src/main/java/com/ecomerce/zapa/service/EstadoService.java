@@ -11,7 +11,10 @@ import com.ecomerce.zapa.repository.EstadoRepository;
 import com.ecomerce.zapa.repository.ProductosVentaRepository;
 import com.ecomerce.zapa.repository.VentaRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class EstadoService {
 
     @Autowired

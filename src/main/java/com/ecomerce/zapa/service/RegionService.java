@@ -8,9 +8,13 @@ import org.springframework.stereotype.Service;
 import com.ecomerce.zapa.model.Region;
 import com.ecomerce.zapa.model.Comuna;
 import com.ecomerce.zapa.repository.RegionRepository;
+
+import jakarta.transaction.Transactional;
+
 import com.ecomerce.zapa.repository.ComunaRepository;
 
 @Service
+@Transactional
 public class RegionService {
 
     @Autowired

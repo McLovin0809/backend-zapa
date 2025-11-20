@@ -9,9 +9,13 @@ import com.ecomerce.zapa.model.MetodoPago;
 import com.ecomerce.zapa.model.Venta;
 import com.ecomerce.zapa.repository.MetodoPagoRepository;
 import com.ecomerce.zapa.repository.VentaRepository;
+
+import jakarta.transaction.Transactional;
+
 import com.ecomerce.zapa.repository.ProductosVentaRepository;
 
 @Service
+@Transactional
 public class MetodoPagoService {
 
     @Autowired

@@ -14,9 +14,13 @@ import com.ecomerce.zapa.repository.ComunaRepository;
 import com.ecomerce.zapa.repository.DireccionRepository;
 import com.ecomerce.zapa.repository.UsuarioRepository;
 import com.ecomerce.zapa.repository.VentaRepository;
+
+import jakarta.transaction.Transactional;
+
 import com.ecomerce.zapa.repository.ProductosVentaRepository;
 
 @Service
+@Transactional
 public class ComunaService {
 
     @Autowired
