@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import com.ecomerce.zapa.model.Imagenes;
+import com.ecomerce.zapa.repository.ImagenRepository;
 import com.ecomerce.zapa.repository.ImagenesRepository;
 
 import jakarta.transaction.Transactional;
@@ -16,6 +17,8 @@ public class ImagenesService {
 
     @Autowired
     private ImagenesRepository imagenesRepository;
+    @Autowired
+    private ImagenRepository imagenRepository;
 
     public List<Imagenes> listar() {
         return imagenesRepository.findAll();
@@ -49,13 +52,15 @@ public class ImagenesService {
         return imagenesRepository.save(existente);
     }
 
-    public void eliminar(Integer id) {
-        imagenesRepository.deleteById(id);
-    }
+    public void eliminarImagen(Integer idImagen) {
 
-    public void eliminarPorProducto(Integer idProducto) {
-        imagenesRepository.deleteByProducto_IdProducto(idProducto);
-    }
+    // 1. eliminar registros intermedios (imagen usada en productos)
+    imagenesRepository.deleteByImagen_IdImagen(idImagen);
+
+    // 2. eliminar la imagen
+    imagenRepository.deleteById(idImagen);
+}
+
 
 }
 

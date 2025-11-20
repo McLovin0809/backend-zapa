@@ -2,6 +2,7 @@ package com.ecomerce.zapa.controller;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 
 import com.ecomerce.zapa.model.Imagenes;
 import com.ecomerce.zapa.service.ImagenesService;
@@ -48,9 +49,9 @@ public class ImagenesController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "eliminar imagen-producto")
-    public void eliminar(@PathVariable Integer id) {
-        imagenesService.eliminar(id);
+    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
+        imagenesService.eliminarImagen(id);
+        return ResponseEntity.noContent().build();
     }
+
 }
-
-
