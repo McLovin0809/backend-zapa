@@ -19,7 +19,7 @@ import com.ecomerce.zapa.service.ImagenService;
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
-@RequestMapping("/api/imagenes-producto")
+@RequestMapping("/api/imagenes")
 public class ImagenController {
     @Autowired
     private ImagenService imagenService;
