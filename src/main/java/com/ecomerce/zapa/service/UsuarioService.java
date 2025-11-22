@@ -84,6 +84,19 @@ public class UsuarioService {
 
         return usuarioRepository.save(existente);
     }
+
+    public Usuario login(Usuario usuario) {
+    // buscar por email
+    Usuario foundUsuario = usuarioRepository.findByEmail(usuario.getEmail());
+
+    // validar clave encriptada
+    if (foundUsuario != null && passwordEncoder.matches(usuario.getClave(), foundUsuario.getClave())) {
+        return foundUsuario;
+    }
+
+    return null;
+}
+
     // cascade
 
     public void eliminarUsuario(Integer id) {

@@ -3,6 +3,7 @@ package com.ecomerce.zapa.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -97,5 +98,19 @@ public class UsuarioController {
         if (lista.isEmpty())
             return ResponseEntity.noContent().build();
         return ResponseEntity.ok(lista);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Usuario usuario) {
+        Usuario login = usuarioService.login(usuario);
+
+        if (login != null) {
+            // ocultamos la clave antes de devolver el objeto
+            login.setClave(null); // 👈 usa "clave" porque tu entidad Usuario tiene ese campo
+            return ResponseEntity.ok(login);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Credenciales inválidas");
+        }
     }
 }
