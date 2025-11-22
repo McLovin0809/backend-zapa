@@ -49,3 +49,5 @@ auditoria venta = 2
 auditoria prodcuto = 3
 genneros = 2
 material = 2
+
+https://backend-zapa.onrender.com/swagger-ui/swagger-ui/index.html

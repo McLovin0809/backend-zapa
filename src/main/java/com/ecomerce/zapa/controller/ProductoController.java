@@ -30,9 +30,9 @@ public class ProductoController {
     @Operation(summary = "obtener todos los productos", description = "DEVUELVE la lista de productos registrados.")
     public ResponseEntity<List<Producto>> listarTodos() {
         List<Producto> productos = productoService.listarProductos();
-        if (productos.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
+        //if (productos.isEmpty()) {
+            //return ResponseEntity.noContent().build();
+        //}
         return ResponseEntity.ok(productos);
     }
 
@@ -45,6 +45,8 @@ public class ProductoController {
         }
         return ResponseEntity.ok(producto);
     }
+
+
 
     @PostMapping
     @Operation(summary = "agregar un producto", description = "crea un producto nuevo")
