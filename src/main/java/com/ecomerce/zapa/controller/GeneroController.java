@@ -10,6 +10,7 @@ import com.ecomerce.zapa.model.Genero;
 import com.ecomerce.zapa.service.GeneroService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/generos")
@@ -19,8 +20,7 @@ public class GeneroController {
     private GeneroService generoService;
 
     @GetMapping
-    @Operation(summary = "obtener todos los géneros", 
-               description = "devuelve la lista completa de géneros registrados.")
+    @Operation(summary = "obtener todos los géneros", description = "devuelve la lista completa de géneros registrados.")
     public ResponseEntity<List<Genero>> listarGeneros() {
         List<Genero> generos = generoService.listarGeneros();
         if (generos.isEmpty()) {
@@ -30,8 +30,7 @@ public class GeneroController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "buscar género por id", 
-               description = "devuelve un género según su id.")
+    @Operation(summary = "buscar género por id", description = "devuelve un género según su id.")
     public ResponseEntity<Genero> obtenerPorId(@PathVariable Integer id) {
         Genero genero = generoService.obtenerPorId(id);
         if (genero == null) {
@@ -41,16 +40,14 @@ public class GeneroController {
     }
 
     @PostMapping
-    @Operation(summary = "agregar un género", 
-               description = "crea un nuevo género.")
-    public ResponseEntity<Genero> registrarGenero(@RequestBody Genero genero) {
+    @Operation(summary = "agregar un género", description = "crea un nuevo género.")
+    public ResponseEntity<Genero> registrarGenero(@Valid @RequestBody Genero genero) {
         Genero nuevo = generoService.registrarGenero(genero);
         return ResponseEntity.status(201).body(nuevo);
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "actualizar género", 
-               description = "modifica un género existente según su id.")
+    @Operation(summary = "actualizar género", description = "modifica un género existente según su id.")
     public ResponseEntity<Genero> actualizarGenero(@PathVariable Integer id, @RequestBody Genero genero) {
         genero.setIdGenero(id);
         Genero actualizado = generoService.actualizarGenero(id, genero);
@@ -61,8 +58,7 @@ public class GeneroController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "eliminar género", 
-               description = "elimina un género según su id.")
+    @Operation(summary = "eliminar género", description = "elimina un género según su id.")
     public ResponseEntity<Void> eliminarGenero(@PathVariable Integer id) {
         generoService.eliminarGenero(id);
         return ResponseEntity.noContent().build();
@@ -70,8 +66,7 @@ public class GeneroController {
 
     // ✔ PERSONALIZADOS
     @GetMapping("/buscar/{nombre}")
-    @Operation(summary = "buscar por nombre exacto",
-               description = "retorna un género cuyo nombre coincida exactamente.")
+    @Operation(summary = "buscar por nombre exacto", description = "retorna un género cuyo nombre coincida exactamente.")
     public ResponseEntity<Genero> buscarPorNombre(@PathVariable String nombre) {
         Genero genero = generoService.buscarPorNombreExacto(nombre);
         if (genero == null) {
@@ -81,11 +76,9 @@ public class GeneroController {
     }
 
     @GetMapping("/existe/{nombre}")
-    @Operation(summary = "verificar existencia por nombre",
-               description = "retorna true si existe un género con ese nombre.")
+    @Operation(summary = "verificar existencia por nombre", description = "retorna true si existe un género con ese nombre.")
     public ResponseEntity<Boolean> existeGenero(@PathVariable String nombre) {
         boolean existe = generoService.existeGenero(nombre);
         return ResponseEntity.ok(existe);
     }
 }
-

@@ -5,9 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ecomerce.zapa.model.Comuna;
+import com.ecomerce.zapa.model.Direccion;
 import com.ecomerce.zapa.model.Rol;
 import com.ecomerce.zapa.model.Usuario;
 import com.ecomerce.zapa.model.Venta;
+import com.ecomerce.zapa.repository.ComunaRepository;
+import com.ecomerce.zapa.repository.DireccionRepository;
 import com.ecomerce.zapa.repository.ProductosVentaRepository;
 import com.ecomerce.zapa.repository.RolRepository;
 import com.ecomerce.zapa.repository.UsuarioRepository;
@@ -29,6 +33,11 @@ public class UsuarioService {
 
     @Autowired
     private RolRepository rolRepository;
+    @Autowired
+    private ComunaRepository comunaRepository;
+
+    @Autowired
+    private DireccionRepository direccionRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -52,6 +61,21 @@ public class UsuarioService {
         // Cargar la entidad Rol desde la base
         Rol rol = rolRepository.findById(idRol).get();
         usuario.setRol(rol);
+
+        // Validar comuna
+        Integer idComuna = usuario.getDireccion().getComuna() != null ? usuario.getDireccion().getComuna().getIdComuna()
+                : null;
+        if (idComuna == null || !comunaRepository.existsById(idComuna)) {
+            throw new RuntimeException("Comuna no válida");
+        }
+        Comuna comuna = comunaRepository.findById(idComuna).get();
+
+        // Persistir dirección con comuna
+        Direccion direccion = usuario.getDireccion();
+        direccion.setComuna(comuna);
+        direccion = direccionRepository.save(direccion);
+
+        usuario.setDireccion(direccion);
 
         // Encriptar la clave
         usuario.setClave(passwordEncoder.encode(usuario.getClave()));
