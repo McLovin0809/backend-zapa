@@ -23,7 +23,7 @@ public class Imagen {
     @Column(nullable = false)
     private String url;
 
-    @Column(length = 200)
+    @Column(length = 800)
     private String descripcion;
 
 }
