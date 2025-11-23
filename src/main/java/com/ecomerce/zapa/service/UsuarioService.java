@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ecomerce.zapa.model.Rol;
 import com.ecomerce.zapa.model.Usuario;
 import com.ecomerce.zapa.model.Venta;
 import com.ecomerce.zapa.repository.ProductosVentaRepository;
+import com.ecomerce.zapa.repository.RolRepository;
 import com.ecomerce.zapa.repository.UsuarioRepository;
 import com.ecomerce.zapa.repository.VentaRepository;
 
@@ -26,6 +28,9 @@ public class UsuarioService {
     private ProductosVentaRepository productosVentaRepository;
 
     @Autowired
+    private RolRepository rolRepository;
+
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     public List<Usuario> listarUsuarios() {
@@ -37,7 +42,21 @@ public class UsuarioService {
     }
 
     public Usuario registrarUsuario(Usuario usuario) {
+        // Validar que el rol venga con idRol
+        Integer idRol = usuario.getRol() != null ? usuario.getRol().getIdRol() : null;
+
+        if (idRol == null || !rolRepository.existsById(idRol)) {
+            throw new RuntimeException("Rol no válido");
+        }
+
+        // Cargar la entidad Rol desde la base
+        Rol rol = rolRepository.findById(idRol).get();
+        usuario.setRol(rol);
+
+        // Encriptar la clave
         usuario.setClave(passwordEncoder.encode(usuario.getClave()));
+
+        // Guardar el usuario
         return usuarioRepository.save(usuario);
     }
 
@@ -86,16 +105,16 @@ public class UsuarioService {
     }
 
     public Usuario login(Usuario usuario) {
-    // buscar por email
-    Usuario foundUsuario = usuarioRepository.findByEmail(usuario.getEmail());
+        // buscar por email
+        Usuario foundUsuario = usuarioRepository.findByEmail(usuario.getEmail());
 
-    // validar clave encriptada
-    if (foundUsuario != null && passwordEncoder.matches(usuario.getClave(), foundUsuario.getClave())) {
-        return foundUsuario;
+        // validar clave encriptada
+        if (foundUsuario != null && passwordEncoder.matches(usuario.getClave(), foundUsuario.getClave())) {
+            return foundUsuario;
+        }
+
+        return null;
     }
-
-    return null;
-}
 
     // cascade
 
@@ -107,10 +126,12 @@ public class UsuarioService {
             productosVentaRepository.deleteByVenta_IdVenta(v.getIdVenta());
         }
 
-        ventaRepository.deleteByUsuario_IdUsuario(id);;
+        ventaRepository.deleteByUsuario_IdUsuario(id);
+        ;
 
         // 2. eliminar usuario
-        usuarioRepository.deleteById(id);;
+        usuarioRepository.deleteById(id);
+        ;
     }
 
     // personalizados
