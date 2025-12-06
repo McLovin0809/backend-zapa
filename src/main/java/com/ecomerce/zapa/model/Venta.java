@@ -3,8 +3,6 @@ package com.ecomerce.zapa.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -43,7 +41,6 @@ public class Venta {
     private MetodoPago metodoPago;
 
     @OneToMany(mappedBy = "venta")
-    @JsonIgnore
     private List<ProductosVenta> productosVenta;
 
 }

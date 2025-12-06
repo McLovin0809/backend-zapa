@@ -1,7 +1,5 @@
 package com.ecomerce.zapa.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,7 +24,6 @@ public class ProductosVenta {
 
     @ManyToOne
     @JoinColumn(name = "id_venta")
-    @JsonIgnoreProperties("productosVenta")
     private Venta venta;
 
     @ManyToOne
