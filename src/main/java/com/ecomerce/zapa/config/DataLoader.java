@@ -17,50 +17,75 @@ import net.datafaker.Faker;
 @Component
 public class DataLoader implements CommandLineRunner {
 
-    @Autowired private CategoriaRepository categoriaRepository;
-    @Autowired private CategoriasRepository categoriasRepository;
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+    @Autowired
+    private CategoriasRepository categoriasRepository;
 
-    @Autowired private ColorRepository colorRepository;
-    @Autowired private ColoresRepository coloresRepository;
+    @Autowired
+    private ColorRepository colorRepository;
+    @Autowired
+    private ColoresRepository coloresRepository;
 
-    @Autowired private EcofriendlyRepository ecofriendlyRepository;
+    @Autowired
+    private EcofriendlyRepository ecofriendlyRepository;
 
-    @Autowired private EstadoRepository estadoRepository;
+    @Autowired
+    private EstadoRepository estadoRepository;
 
-    @Autowired private GeneroRepository generoRepository;
+    @Autowired
+    private GeneroRepository generoRepository;
 
-    @Autowired private ImagenRepository imagenRepository;
-    @Autowired private ImagenesRepository imagenesRepository;
+    @Autowired
+    private ImagenRepository imagenRepository;
+    @Autowired
+    private ImagenesRepository imagenesRepository;
 
-    @Autowired private MarcaRepository marcaRepository;
+    @Autowired
+    private MarcaRepository marcaRepository;
 
-    @Autowired private MaterialRepository materialRepository;
+    @Autowired
+    private MaterialRepository materialRepository;
 
-    @Autowired private MetodoPagoRepository metodoPagoRepository;
+    @Autowired
+    private MetodoPagoRepository metodoPagoRepository;
 
-    @Autowired private ProductoRepository productoRepository;
-    @Autowired private ProductosVentaRepository productosVentaRepository;
+    @Autowired
+    private ProductoRepository productoRepository;
+    @Autowired
+    private ProductosVentaRepository productosVentaRepository;
 
-    @Autowired private RegionRepository regionRepository;
-    @Autowired private ComunaRepository comunaRepository;
-    @Autowired private DireccionRepository direccionRepository;
+    @Autowired
+    private RegionRepository regionRepository;
+    @Autowired
+    private ComunaRepository comunaRepository;
+    @Autowired
+    private DireccionRepository direccionRepository;
 
-    @Autowired private RolRepository rolRepository;
-    @Autowired private UsuarioRepository usuarioRepository;
+    @Autowired
+    private RolRepository rolRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-    @Autowired private TallaRepository tallaRepository;
-    @Autowired private TallasRepository tallasRepository;
+    @Autowired
+    private TallaRepository tallaRepository;
+    @Autowired
+    private TallasRepository tallasRepository;
 
-    @Autowired private VentaRepository ventaRepository;
+    @Autowired
+    private VentaRepository ventaRepository;
 
     @Override
     public void run(String... args) throws Exception {
 
-        System.out.println("Esperando a que Hibernate inicialice la BD...");
-        Thread.sleep(8000);
+        System.setProperty("hibernate.jdbc.batch_size", "0");
+        System.setProperty("hibernate.order_inserts", "false");
+        System.setProperty("hibernate.order_updates", "false");
+
+        Thread.sleep(3000);
 
         if (usuarioRepository.count() > 0) {
-            System.out.println("BD ya inicializada. DataLoader omitido.");
+            System.out.println("BD ya inicializada. Omitiendo DataLoader.");
             return;
         }
 
@@ -103,19 +128,11 @@ public class DataLoader implements CommandLineRunner {
             usuarios.add(usuarioRepository.save(u));
         }
 
-        Usuario adminFijo = new Usuario();
-        adminFijo.setNombre("Administrador");
-        adminFijo.setEmail("admin@zapa.cl");
-        adminFijo.setClave("admin123");
-        adminFijo.setTelefono("99999999");
-        adminFijo.setRol(admin);
-        adminFijo.setDireccion(direccion);
-        usuarioRepository.save(adminFijo);
+        usuarioRepository
+                .save(new Usuario(null, "Administrador", "admin@zapa.cl", "admin123", "99999999", admin, direccion));
 
-        Categoria cat1 = new Categoria(null, "Zapatillas");
-        Categoria cat2 = new Categoria(null, "Botines");
-        cat1 = categoriaRepository.save(cat1);
-        cat2 = categoriaRepository.save(cat2);
+        Categoria cat1 = categoriaRepository.save(new Categoria(null, "Zapatillas"));
+        Categoria cat2 = categoriaRepository.save(new Categoria(null, "Botines"));
 
         Marca marca1 = marcaRepository.save(new Marca(null, "Nike"));
         Marca marca2 = marcaRepository.save(new Marca(null, "Adidas"));
@@ -126,8 +143,7 @@ public class DataLoader implements CommandLineRunner {
         Material mat1 = materialRepository.save(new Material(null, "Cuero"));
         Material mat2 = materialRepository.save(new Material(null, "Sintético"));
 
-        Ecofriendly eco = new Ecofriendly(null, true);
-        eco = ecofriendlyRepository.save(eco);
+        Ecofriendly eco = ecofriendlyRepository.save(new Ecofriendly(null, true));
 
         Color colNegro = colorRepository.save(new Color(null, "Negro"));
         Color colBlanco = colorRepository.save(new Color(null, "Blanco"));
@@ -140,7 +156,7 @@ public class DataLoader implements CommandLineRunner {
         for (int i = 0; i < 10; i++) {
             Producto p = new Producto();
             p.setNombre("Zapatilla Modelo " + (i + 1));
-            p.setDescripcion("Zapatilla deportiva de alta calidad modelo " + (i + 1));
+            p.setDescripcion("Zapatilla deportiva modelo " + (i + 1));
             p.setPrecio(faker.number().randomDouble(2, 25000, 80000));
             p.setStock(faker.number().numberBetween(5, 50));
             p.setDescuento(faker.number().randomDouble(2, 0, 40));
@@ -155,41 +171,23 @@ public class DataLoader implements CommandLineRunner {
         }
 
         for (Producto p : productos) {
-            Categorias cp = new Categorias();
-            cp.setProducto(p);
-            cp.setCategoria(random.nextBoolean() ? cat1 : cat2);
-            categoriasRepository.save(cp);
+            categoriasRepository.save(new Categorias(null, p, random.nextBoolean() ? cat1 : cat2));
         }
 
         List<Imagen> imagenes = new ArrayList<>();
-
         for (int i = 0; i < 20; i++) {
-            Imagen img = new Imagen();
-            img.setUrl("https://picsum.photos/500?img=" + i);
-            img.setDescripcion("Imagen " + i);
-            imagenes.add(imagenRepository.save(img));
+            imagenes.add(imagenRepository.save(new Imagen(null, "Imagen " + i, "https://picsum.photos/500?img=" + i)));
         }
 
         for (Producto p : productos) {
-            Imagenes ip = new Imagenes();
-            ip.setProducto(p);
-            ip.setImagen(imagenes.get(random.nextInt(imagenes.size())));
-            imagenesRepository.save(ip);
+            imagenesRepository.save(new Imagenes(null, p, imagenes.get(random.nextInt(imagenes.size()))));
         }
 
         for (Producto p : productos) {
-            Colores c = new Colores();
-            c.setProducto(p);
-            c.setColor(random.nextBoolean() ? colNegro : colBlanco);
-            coloresRepository.save(c);
+            coloresRepository.save(new Colores(null, p, random.nextBoolean() ? colNegro : colBlanco));
         }
-
         for (Producto p : productos) {
-            Tallas talla = new Tallas();
-            talla.setProducto(p);
-            talla.setTalla(random.nextBoolean() ? t38 : t40);
-            talla.setStock_talla(random.nextInt(10) + 1);
-            tallasRepository.save(talla);
+            tallasRepository.save(new Tallas(null, p, random.nextBoolean() ? t38 : t40, random.nextInt(10) + 1));
         }
 
         Estado pendiente = estadoRepository.save(new Estado(null, "PENDIENTE"));
@@ -199,7 +197,6 @@ public class DataLoader implements CommandLineRunner {
         MetodoPago credito = metodoPagoRepository.save(new MetodoPago(null, "Tarjeta Crédito"));
 
         for (int i = 0; i < 5; i++) {
-
             Venta v = new Venta();
             v.setFechaVenta(LocalDateTime.now().minusDays(random.nextInt(10)));
             v.setUsuario(usuarios.get(random.nextInt(usuarios.size())));
@@ -211,7 +208,6 @@ public class DataLoader implements CommandLineRunner {
             int cantidad = random.nextInt(3) + 1;
 
             for (int j = 0; j < cantidad; j++) {
-
                 Producto seleccionado = productos.get(random.nextInt(productos.size()));
 
                 ProductosVenta pv = new ProductosVenta();
@@ -224,6 +220,6 @@ public class DataLoader implements CommandLineRunner {
             }
         }
 
-        System.out.println("✔✔ DataLoader ZAPA ejecutado con éxito ✔✔");
+        System.out.println("✔✔ DataLoader ZAPA ejecutado sin errores ✔✔");
     }
 }
