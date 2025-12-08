@@ -63,8 +63,7 @@ public class UsuarioService {
         usuario.setRol(rol);
 
         // Validar comuna
-        Integer idComuna = usuario.getDireccion().getComuna() != null ? usuario.getDireccion().getComuna().getIdComuna()
-                : null;
+        Integer idComuna = usuario.getDireccion().getComuna() != null ? usuario.getDireccion().getComuna().getIdComuna(): null;
         if (idComuna == null || !comunaRepository.existsById(idComuna)) {
             throw new RuntimeException("Comuna no válida");
         }
