@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecomerce.zapa.model.Usuario;
+import com.ecomerce.zapa.security.JwtService;
 import com.ecomerce.zapa.service.UsuarioService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import java.util.Map;
+import com.ecomerce.zapa.security.JwtService;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -27,6 +30,10 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    // nuevo
+    @Autowired
+    private JwtService jwtService;
 
     @GetMapping
     @Operation(summary = "obtener todos los usuarios", description = "DEVUELVE la lista de usuarios registrados.")
@@ -100,7 +107,8 @@ public class UsuarioController {
         return ResponseEntity.ok(lista);
     }
 
-    @PostMapping("/login")
+
+    /*@PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Usuario usuario) {
         Usuario login = usuarioService.login(usuario);
 
@@ -108,6 +116,26 @@ public class UsuarioController {
             // ocultamos la clave antes de devolver el objeto
             login.setClave(null); // 👈 usa "clave" porque tu entidad Usuario tiene ese campo
             return ResponseEntity.ok(login);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Credenciales inválidas");
+        }
+    }*/
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Usuario usuario) {
+
+        Usuario login = usuarioService.login(usuario);
+
+        if (login != null) {
+            String token = jwtService.generateToken(login.getEmail());
+
+            return ResponseEntity.ok()
+                    .body(Map.of(
+                            "token", token,
+                            "usuario", login.getNombre(),
+                            "email", login.getEmail()
+                    ));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Credenciales inválidas");
