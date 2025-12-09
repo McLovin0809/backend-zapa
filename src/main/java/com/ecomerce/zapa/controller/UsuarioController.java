@@ -22,7 +22,6 @@ import com.ecomerce.zapa.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import java.util.Map;
-import com.ecomerce.zapa.security.JwtService;
 
 @RestController
 @RequestMapping("/api/usuarios")
