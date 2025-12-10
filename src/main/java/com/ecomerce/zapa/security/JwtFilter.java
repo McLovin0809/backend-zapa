@@ -8,7 +8,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import jakarta.servlet.*;
-
 import jakarta.servlet.http.*;
 
 @Component
@@ -51,7 +50,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(auth);
             } catch (Exception e) {
-                // token inválido → limpiar contexto
                 SecurityContextHolder.clearContext();
             }
         }

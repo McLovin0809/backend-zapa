@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.http.HttpMethod;
 
 @Configuration
 @EnableWebSecurity
@@ -23,12 +24,17 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/usuarios/login").permitAll()
-                .requestMatchers("/api/usuarios").permitAll() // registro abierto
+                // 🔓 LOGIN Y REGISTRO SIN TOKEN
+                .requestMatchers(HttpMethod.POST, "/api/usuarios/login").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
+
+                // 🔓 CATÁLOGOS PÚBLICOS
                 .requestMatchers("/api/regiones/**").permitAll()
                 .requestMatchers("/api/comunas/**").permitAll()
                 .requestMatchers("/api/roles/**").permitAll()
                 .requestMatchers("/api/productos/**").permitAll()
+
+                // ✅ EL RESTO REQUIERE TOKEN
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
