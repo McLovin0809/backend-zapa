@@ -17,12 +17,14 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
+
         String path = request.getServletPath();
 
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) return true;
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            return true;
+        }
 
-        return path.equals("/api/usuarios/login")
-            || path.equals("/api/usuarios")
+        return path.startsWith("/api/usuarios")   // ✅ LOGIN, REGISTRO, GET USUARIOS
             || path.startsWith("/api/productos")
             || path.startsWith("/api/regiones")
             || path.startsWith("/api/comunas")
