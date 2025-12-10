@@ -25,9 +25,17 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
 
+        // ✅ PERMITIR PREFLIGHT CORS
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            return true;
+        }
+
         return path.equals("/api/usuarios/login")
             || path.equals("/api/usuarios")
             || path.startsWith("/api/productos")
+            || path.startsWith("/api/regiones")
+            || path.startsWith("/api/comunas")
+            || path.startsWith("/api/roles")
             || path.startsWith("/swagger-ui")
             || path.startsWith("/v3/api-docs");
     }

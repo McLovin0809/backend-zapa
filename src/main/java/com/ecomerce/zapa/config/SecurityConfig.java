@@ -6,15 +6,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.ecomerce.zapa.security.JwtFilter;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -24,36 +23,41 @@ public class SecurityConfig {
     private JwtFilter jwtFilter;
 
     @Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            // ✅ DESACTIVAR CSRF
+            .csrf(csrf -> csrf.disable())
 
-    http
-        .cors(cors -> {})
-        .csrf(csrf -> csrf.disable())
-        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(auth -> auth
+            // ✅ CONFIGURAR PERMISOS
+            .authorizeHttpRequests(auth -> auth
 
-            // PÚBLICOS
-            .requestMatchers(
-                "/api/usuarios",
-                "/api/usuarios/login",
-                "/api/productos/**",
-                "/swagger-ui/**",
-                "/v3/api-docs/**"
-            ).permitAll()
+                // 🔓 LOGIN Y REGISTRO SIN TOKEN
+                .requestMatchers("/api/usuarios/login").permitAll()
+                .requestMatchers("/api/usuarios").permitAll()
+
+                // 🔓 CATÁLOGOS PÚBLICOS
+                .requestMatchers("/api/regiones/**").permitAll()
+                .requestMatchers("/api/comunas/**").permitAll()
+                .requestMatchers("/api/roles/**").permitAll()
+                .requestMatchers("/api/productos/**").permitAll()
 
 
-            .anyRequest().authenticated()
-        )
-        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .anyRequest().authenticated()
+            )
 
-    return http.build();
-}
+            // ✅ AGREGAR EL FILTRO JWT (ESTE ERA TU ERROR)
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
+        return http.build();
+    }
+
+    // ✅ ENCRIPTAR CONTRASEÑAS
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // ✅ MANEJO DE AUTENTICACIÓN
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
