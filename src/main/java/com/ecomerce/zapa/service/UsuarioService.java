@@ -4,8 +4,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.ecomerce.zapa.model.*;
-import com.ecomerce.zapa.repository.*;
+
+import com.ecomerce.zapa.model.Direccion;
+import com.ecomerce.zapa.model.Rol;
+import com.ecomerce.zapa.model.Usuario;
+import com.ecomerce.zapa.repository.ComunaRepository;
+import com.ecomerce.zapa.repository.DireccionRepository;
+import com.ecomerce.zapa.repository.RolRepository;
+import com.ecomerce.zapa.repository.UsuarioRepository;
+
 import jakarta.transaction.Transactional;
 
 @Service
@@ -37,6 +44,9 @@ public class UsuarioService {
                            usuario.getDireccion().getComuna() != null
                            ? usuario.getDireccion().getComuna().getIdComuna() : null;
 
+        // Validar comuna
+        Integer idComuna = usuario.getDireccion().getComuna() != null ? usuario.getDireccion().getComuna().getIdComuna()
+                : null;
         if (idComuna == null || !comunaRepository.existsById(idComuna)) {
             throw new RuntimeException("Comuna no válida");
         }

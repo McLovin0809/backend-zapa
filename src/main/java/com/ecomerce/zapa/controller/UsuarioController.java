@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import com.ecomerce.zapa.model.Usuario;
-import com.ecomerce.zapa.security.JwtService;
 import com.ecomerce.zapa.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -16,7 +15,6 @@ import jakarta.validation.Valid;
 public class UsuarioController {
 
     @Autowired private UsuarioService usuarioService;
-    @Autowired private JwtService jwtService;
 
     @GetMapping
     @Operation(summary = "obtener todos los usuarios")
