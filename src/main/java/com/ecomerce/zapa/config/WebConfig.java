@@ -14,13 +14,8 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins(
-                            "https://front-zapa.vercel.app",
-                            "http://localhost:5173"
-                        )
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
-                        .allowedHeaders("*")
-                        .allowCredentials(true);
+                        .allowedOrigins("*")  // Cambia "*" por tu dominio si es necesario
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH");
             }
         };
     }
