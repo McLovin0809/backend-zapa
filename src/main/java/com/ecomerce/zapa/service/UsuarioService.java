@@ -2,7 +2,7 @@ package com.ecomerce.zapa.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ecomerce.zapa.model.Comuna;
@@ -40,7 +40,7 @@ public class UsuarioService {
     private DireccionRepository direccionRepository;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     public List<Usuario> listarUsuarios() {
         return usuarioRepository.findAll();
