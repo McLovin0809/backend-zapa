@@ -38,7 +38,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // ✅ Permitir catálogos públicos sin token
         return path.startsWith("/api/productos")
-            //|| path.startsWith("/api/usuarios")   // ✅ LOGIN, REGISTRO, GET USUARIOS
+            || path.startsWith("/api/usuarios")   // ✅ LOGIN, REGISTRO, GET USUARIOS
             || path.startsWith("/api/regiones")
             || path.startsWith("/api/comunas")
             || path.startsWith("/api/roles")
