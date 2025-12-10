@@ -24,24 +24,30 @@ public class SecurityConfig {
     private JwtFilter jwtFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
-            .cors(cors -> {})
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                        "/api/**",   
-                        "/swagger-ui/**",
-                        "/v3/api-docs/**"
-                ).permitAll()
-                .anyRequest().authenticated()
-            )
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+    http
+        .cors(cors -> {})
+        .csrf(csrf -> csrf.disable())
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(auth -> auth
 
-        return http.build();
-    }
+            // PÚBLICOS
+            .requestMatchers(
+                "/api/usuarios",
+                "/api/usuarios/login",
+                "/api/productos/**",
+                "/swagger-ui/**",
+                "/v3/api-docs/**"
+            ).permitAll()
+
+
+            .anyRequest().authenticated()
+        )
+        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+    return http.build();
+}
 
     @Bean
     public PasswordEncoder passwordEncoder() {

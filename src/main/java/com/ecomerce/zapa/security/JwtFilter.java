@@ -21,6 +21,18 @@ public class JwtFilter extends OncePerRequestFilter {
     private JwtService jwtService;
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+
+        String path = request.getServletPath();
+
+        return path.equals("/api/usuarios/login")
+            || path.equals("/api/usuarios")
+            || path.startsWith("/api/productos")
+            || path.startsWith("/swagger-ui")
+            || path.startsWith("/v3/api-docs");
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain)
@@ -29,6 +41,7 @@ public class JwtFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
+
             String jwt = authHeader.substring(7);
             String email = jwtService.extractUsername(jwt);
 
