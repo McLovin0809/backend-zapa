@@ -106,7 +106,7 @@ public class UsuarioController {
 
         if (login != null) {
             // ocultamos la clave antes de devolver el objeto
-            login.setClave(null); // 👈 usa "clave" porque tu entidad Usuario tiene ese campo
+            login.setClave(null); // porque tu entidad Usuario tiene ese campo
             return ResponseEntity.ok(login);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

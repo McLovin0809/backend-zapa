@@ -46,8 +46,6 @@ public class ProductoController {
         return ResponseEntity.ok(producto);
     }
 
-
-
     @PostMapping
     @Operation(summary = "agregar un producto", description = "crea un producto nuevo")
     public ResponseEntity<Producto> createProducto(@RequestBody Producto producto) {
@@ -80,6 +78,29 @@ public class ProductoController {
     public ResponseEntity<Void> eliminarProducto(@PathVariable Integer id) {
         productoService.eliminarProducto(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/stock")
+    @Operation(summary = "descontar stock", description = "reduce el stock de un producto cuando se realiza una compra")
+    public ResponseEntity<Producto> descontarStock(
+            @PathVariable Integer id,
+            @RequestParam Integer cantidad) {
+
+        Producto producto = productoService.obtenerPorId(id);
+        if (producto == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Validar stock suficiente
+        if (producto.getStock() == null || producto.getStock() < cantidad) {
+            return ResponseEntity.badRequest().build(); // stock insuficiente
+        }
+
+        // Restar stock
+        producto.setStock(producto.getStock() - cantidad);
+
+        Producto actualizado = productoService.actualizarProducto(id, producto);
+        return ResponseEntity.ok(actualizado);
     }
 
     // personalizados
