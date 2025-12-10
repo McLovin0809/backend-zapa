@@ -20,7 +20,7 @@ public class ProductoService {
     @Autowired
     private ProductoRepository productoRepository;
 
-     @Autowired
+    @Autowired
     private TallasRepository tallasRepository;
 
     @Autowired
@@ -126,7 +126,7 @@ public class ProductoService {
 
         return productoRepository.save(existente);
     }
-    
+
     // cascada
     public void eliminarProducto(Integer id) {
         // 1. eliminar tallas
@@ -147,7 +147,19 @@ public class ProductoService {
         // 6. eliminar el producto
         productoRepository.deleteById(id);
     }
-    
+
+    public Producto descontarStock(Integer id, Integer cantidad) {
+        Producto producto = obtenerPorId(id);
+        if (producto == null) {
+            return null;
+        }
+        if (producto.getStock() == null || producto.getStock() < cantidad) {
+            throw new RuntimeException("Stock insuficiente");
+        }
+        producto.setStock(producto.getStock() - cantidad);
+        return productoRepository.save(producto);
+    }
+
     // personalizados
     public List<Producto> buscarPorMarca(String nombreMarca) {
         return productoRepository.findByMarca_Nombre(nombreMarca);
