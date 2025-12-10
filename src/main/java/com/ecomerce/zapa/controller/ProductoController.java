@@ -86,21 +86,15 @@ public class ProductoController {
             @PathVariable Integer id,
             @RequestParam Integer cantidad) {
 
-        Producto producto = productoService.obtenerPorId(id);
-        if (producto == null) {
-            return ResponseEntity.notFound().build();
+        try {
+            Producto actualizado = productoService.descontarStock(id, cantidad);
+            if (actualizado == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(actualizado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
         }
-
-        // Validar stock suficiente
-        if (producto.getStock() == null || producto.getStock() < cantidad) {
-            return ResponseEntity.badRequest().build(); // stock insuficiente
-        }
-
-        // Restar stock
-        producto.setStock(producto.getStock() - cantidad);
-
-        Producto actualizado = productoService.actualizarProducto(id, producto);
-        return ResponseEntity.ok(actualizado);
     }
 
     // personalizados
