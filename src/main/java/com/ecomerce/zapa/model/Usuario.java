@@ -48,12 +48,10 @@ public class Usuario {
 
     @ManyToOne
     @JoinColumn(name = "id_rol")
-    @JsonIgnore  // Ignora temporalmente esta relación
     private Rol rol;
 
     @ManyToOne
     @JoinColumn(name = "id_direccion")
-    @JsonIgnore  // Ignora temporalmente esta relación
     private Direccion direccion;
 
 }
