@@ -7,25 +7,38 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    @Autowired private JwtService jwtService;
+    @Autowired
+    private JwtService jwtService;
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-
         String path = request.getServletPath();
+        String method = request.getMethod();
 
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+        // ✅ Permitir preflight CORS
+        if ("OPTIONS".equalsIgnoreCase(method)) {
             return true;
         }
 
-        return path.startsWith("/api/usuarios")   // ✅ LOGIN, REGISTRO, GET USUARIOS
-            || path.startsWith("/api/productos")
+        // ✅ Permitir login y registro sin token
+        if (path.equals("/api/usuarios/login") && "POST".equalsIgnoreCase(method)) {
+            return true;
+        }
+        if (path.equals("/api/usuarios") && "POST".equalsIgnoreCase(method)) {
+            return true;
+        }
+
+        // ✅ Permitir catálogos públicos sin token
+        return path.startsWith("/api/productos")
+            //|| path.startsWith("/api/usuarios")   // ✅ LOGIN, REGISTRO, GET USUARIOS
             || path.startsWith("/api/regiones")
             || path.startsWith("/api/comunas")
             || path.startsWith("/api/roles")
