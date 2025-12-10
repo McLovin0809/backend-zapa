@@ -19,19 +19,21 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                        "/api/usuarios/login",
-                        "/api/usuarios/registro",
-                        "/swagger-ui/**",
-                        "/v3/api-docs/**"
-                ).permitAll()
-                .anyRequest().authenticated()
-            );
+        .cors(cors -> {}) // FORMA CORRECTA PARA SPRING 6+
+        .csrf(csrf -> csrf.disable())
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(
+                    "/api/usuarios/login",
+                    "/api/usuarios/registro",
+                    "/api/productos/**",
+                    "/swagger-ui/**",
+                    "/v3/api-docs/**"
+            ).permitAll()
+            .anyRequest().authenticated()
+        );
 
-        return http.build();
+    return http.build();
     }
 
     @Bean
